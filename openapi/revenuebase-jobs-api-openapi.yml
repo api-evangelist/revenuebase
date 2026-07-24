@@ -1,0 +1,270 @@
+openapi: 3.1.0
+info:
+  title: Revenuebase API v2 Account Jobs API
+  version: 0.1.0
+servers:
+- url: https://api.revenuebase.ai
+tags:
+- name: Jobs
+paths:
+  /v2/jobs:
+    get:
+      tags:
+      - Jobs
+      summary: List active batch jobs
+      description: Returns all batch jobs in `QUEUED` or `PROCESSING` status for your account. Use the `process_id` from each result to poll individual job status or cancel.
+      operationId: list_jobs_v2_jobs_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueuedProcessesResponse'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\njobs = client.jobs.list()\nfor job in jobs.processes:\n    print(job.process_id, job.status)"
+  /v2/jobs/{process_id}:
+    get:
+      tags:
+      - Jobs
+      summary: Get batch job status
+      description: 'Returns the current processing status for a batch job. Only the user who submitted the job can query it.
+
+
+        Possible statuses: `QUEUED`, `PROCESSING`, `COMPLETED`, `ERROR`, `CANCELLING`, `CANCELLED`.
+
+
+        **Errors**
+
+        - `400` — Invalid `process_id` or job does not belong to your account.'
+      operationId: get_job_v2_jobs__process_id__get
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: process_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Process Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEmailStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: 'from revenuebase_sdk import RevenuebaseClient
+
+
+          client = RevenuebaseClient()
+
+
+          job = client.jobs.get(process_id=42)
+
+          print(job.current_status)'
+  /v2/jobs/{process_id}/cancel:
+    post:
+      tags:
+      - Jobs
+      summary: Cancel a batch job
+      description: 'Marks a batch job for cancellation. Jobs in `QUEUED` state will not be processed. Jobs in `PROCESSING` state may not stop immediately.
+
+
+        **Errors**
+
+        - `400 already_cancelled` — Job is already `CANCELLED` or `CANCELLING`.
+
+        - `400 not_cancellable` — Job has status `COMPLETED` or `ERROR`.
+
+        - `400` — Invalid `process_id` or job does not belong to your account.'
+      operationId: cancel_job_v2_jobs__process_id__cancel_post
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: process_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Process Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEmailStatusResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: 'from revenuebase_sdk import RevenuebaseClient
+
+
+          client = RevenuebaseClient()
+
+
+          job = client.jobs.cancel(process_id=42)
+
+          print(job.current_status)  # "CANCELLING"'
+  /v2/jobs/{process_id}/download:
+    get:
+      tags:
+      - Jobs
+      summary: Download batch job results
+      description: 'Streams the processed output file for a completed or cancelled batch job. The response includes a `Content-Disposition` header with the original filename.
+
+
+        **Errors**
+
+        - `400 not_completed` — Job must be `COMPLETED` or `CANCELLED` before downloading.
+
+        - `400 process_error` — Job ended with an error. No output file available.
+
+        - `400` — Invalid `process_id` or job does not belong to your account.'
+      operationId: download_job_v2_jobs__process_id__download_get
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: process_id
+        in: path
+        required: true
+        schema:
+          type: integer
+          title: Process Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Download Job V2 Jobs  Process Id  Download Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\ndata = client.jobs.download(process_id=42)\nwith open(\"results.csv\", \"wb\") as f:\n    f.write(data)"
+components:
+  schemas:
+    Process:
+      properties:
+        process_id:
+          type: integer
+          title: Process Id
+        filename:
+          type: string
+          title: Filename
+        status:
+          type: string
+          title: Status
+        message:
+          type: string
+          title: Message
+        last_updated:
+          type: string
+          format: date-time
+          title: Last Updated
+      type: object
+      required:
+      - process_id
+      - filename
+      - status
+      - message
+      - last_updated
+      title: Process
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    QueuedProcessesResponse:
+      properties:
+        processes:
+          items:
+            $ref: '#/components/schemas/Process'
+          type: array
+          title: Processes
+      type: object
+      required:
+      - processes
+      title: QueuedProcessesResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    BatchEmailStatusResponse:
+      properties:
+        process_id:
+          type: integer
+          title: Process Id
+        filename:
+          type: string
+          title: Filename
+        current_status:
+          type: string
+          title: Current Status
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - process_id
+      - filename
+      - current_status
+      - message
+      title: BatchEmailStatusResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: x-key

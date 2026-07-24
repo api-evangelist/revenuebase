@@ -1,0 +1,279 @@
+openapi: 3.1.0
+info:
+  title: Revenuebase API v2 Account Organization API
+  version: 0.1.0
+servers:
+- url: https://api.revenuebase.ai
+tags:
+- name: Organization
+paths:
+  /v2/organization/resolve:
+    post:
+      tags:
+      - Organization
+      summary: Match an organization name to a verified record
+      description: 'Uses semantic search to find the closest matching organizations for a given name. Optionally filter by headquarters location. Returns up to 10 results ranked by similarity score. Deducts 1 credit per request.
+
+
+        `result_count` must be between 1 and 10 (inclusive).
+
+
+        **Errors**
+
+        - `400` — `result_count` is out of the allowed range.
+
+        - `402` — Insufficient credits.'
+      operationId: resolve_company_v2_organization_resolve_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyResolverRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyResolverResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.organization.resolve(\n    company_name=\"Acme Corp\",\n    result_count=5,\n    headquarters_country=\"US\",\n)\nfor org in result.companies:\n    print(org.company_name, org.similar_score)"
+  /v2/organization/discover:
+    post:
+      tags:
+      - Organization
+      summary: Discover organizations by keyword
+      description: 'Uses semantic search to find organizations matching a keyword or natural-language description. Optionally filter by headquarters location. Returns up to 10,000 results ranked by similarity score. Credits are deducted only for results that meet the `min_similarity_score` threshold.
+
+
+        `result_count` must be between 1 and 10000 (inclusive).
+
+        `min_similarity_score` must be between 0 and 0.95 (inclusive). Defaults to 0.
+
+
+        **Errors**
+
+        - `400` — `result_count` is out of the allowed range, or `min_similarity_score` is outside 0–0.95.
+
+        - `402` — Insufficient credits.'
+      operationId: discover_company_v2_organization_discover_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompanyDiscoverRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyResolverResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.organization.discover(\n    keyword=\"enterprise SaaS cybersecurity\",\n    result_count=50,\n    headquarters_country=\"US\",\n)\nfor org in result.companies:\n    print(org.company_name, org.about_us)"
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CompanyDiscoverRequest:
+      properties:
+        result_count:
+          type: integer
+          title: Result Count
+          default: 1000
+        keyword:
+          type: string
+          title: Keyword
+        min_similarity_score:
+          type: number
+          maximum: 0.95
+          minimum: 0.0
+          title: Min Similarity Score
+          description: Minimum similarity score (0–0.95). Only results at or above this threshold are returned and charged.
+          default: 0
+        headquarters_state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters State
+        headquarters_country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Country
+        headquarters_city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters City
+          description: Case-sensitive. Must match the city name exactly as stored.
+        headquarters_street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Street
+        headquarters_zip:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Zip
+      type: object
+      required:
+      - keyword
+      title: CompanyDiscoverRequest
+    CompanyResolverRequest:
+      properties:
+        result_count:
+          type: integer
+          title: Result Count
+          default: 3
+        company_name:
+          type: string
+          title: Company Name
+        headquarters_state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters State
+        headquarters_country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Country
+        headquarters_city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters City
+        headquarters_street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Street
+        headquarters_zip:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Zip
+      type: object
+      required:
+      - company_name
+      title: CompanyResolverRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Company:
+      properties:
+        rbid:
+          type: string
+          title: Rbid
+        company_name:
+          type: string
+          title: Company Name
+        similar_score:
+          type: number
+          title: Similar Score
+        about_us:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: About Us
+        headquarters_street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Street
+        headquarters_city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters City
+        headquarters_state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters State
+        headquarters_zip:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Zip
+        headquarters_country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Country
+      type: object
+      required:
+      - rbid
+      - company_name
+      - similar_score
+      title: Company
+    CompanyResolverResponse:
+      properties:
+        companies:
+          items:
+            $ref: '#/components/schemas/Company'
+          type: array
+          title: Companies
+      type: object
+      required:
+      - companies
+      title: CompanyResolverResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: x-key

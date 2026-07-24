@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: Revenuebase API v2 Account API
+  version: 0.1.0
+servers:
+- url: https://api.revenuebase.ai
+tags:
+- name: Account
+paths:
+  /v2/account/balance:
+    get:
+      tags:
+      - Account
+      summary: Get your remaining credit balance
+      description: Returns the number of validation credits remaining on your account. Each `Valid` or `Invalid` result deducts 1 credit.
+      operationId: get_usage_v2_account_balance_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsageResponse'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: 'from revenuebase_sdk import RevenuebaseClient
+
+
+          client = RevenuebaseClient()
+
+
+          usage = client.account.balance()
+
+          print(usage.credits)'
+  /v2/account/api-keys/rotate:
+    post:
+      tags:
+      - Account
+      summary: Rotate your API key
+      description: Generates a new API key and immediately invalidates the previous one. Update all integrations with the new key before making further requests.
+      operationId: rotate_api_key_v2_account_api_keys_rotate_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewKeyResponse'
+      security:
+      - APIKeyHeader: []
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: 'from revenuebase_sdk import RevenuebaseClient
+
+
+          client = RevenuebaseClient()
+
+
+          response = client.account.rotate_api_key()
+
+          print(response.api_key)'
+components:
+  schemas:
+    UsageResponse:
+      properties:
+        credits:
+          type: integer
+          title: Credits
+      type: object
+      required:
+      - credits
+      title: UsageResponse
+    NewKeyResponse:
+      properties:
+        api_key:
+          type: string
+          title: Api Key
+      type: object
+      required:
+      - api_key
+      title: NewKeyResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: x-key

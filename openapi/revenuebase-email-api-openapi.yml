@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  title: Revenuebase API v2 Account Email API
+  version: 0.1.0
+servers:
+- url: https://api.revenuebase.ai
+tags:
+- name: Email
+paths:
+  /v2/email/verify:
+    post:
+      tags:
+      - Email
+      summary: Verify a single email address
+      description: 'Verifies one email address synchronously. Returns `Valid`, `Invalid`, or `Unknown`. Set `metadata=true` to include MX record presence, email provider, security gateway, and failure reason. Deducts 1 credit on `Valid` or `Invalid` results. Rate limited to 5 request per second.
+
+
+        **Errors**
+
+        - `402` — Insufficient credits. Recharge your account before retrying.'
+      operationId: verify_email_v2_email_verify_post
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: metadata
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include detailed metadata in response
+          default: false
+          title: Metadata
+        description: Include detailed metadata in response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RealTimeEmailRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Verify Email V2 Email Verify Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: 'from revenuebase_sdk import RevenuebaseClient
+
+
+          client = RevenuebaseClient()
+
+
+          result = client.email.verify(email="user@example.com")
+
+          print(result.status)  # "Valid", "Invalid", or "Unknown"'
+  /v2/email/verify/batch:
+    post:
+      tags:
+      - Email
+      summary: Upload a batch file for email verification
+      description: 'Accepts a `.csv` or `.json` file and queues it for asynchronous processing. Returns a `process_id` — use it to poll status or download results when complete. Set `metadata=true` to include MX record, email provider, and failure reason fields in the output file.
+
+
+        **Errors**
+
+        - `400 invalid_extension` — File must be `.csv` or `.json`.
+
+        - `400 upload_error` — File upload failed. Contact support.'
+      operationId: verify_email_batch_v2_email_verify_batch_post
+      security:
+      - APIKeyHeader: []
+      parameters:
+      - name: metadata
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include metadata fields in output file
+          default: false
+          title: Metadata
+        description: Include metadata fields in output file
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_verify_email_batch_v2_email_verify_batch_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchEmailResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      x-codeSamples:
+      - lang: Python
+        label: Python SDK
+        source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nwith open(\"emails.csv\", \"rb\") as f:\n    job = client.email.batch_upload(file=f, filename=\"emails.csv\")\n\nprint(job.process_id)"
+components:
+  schemas:
+    BatchEmailResponse:
+      properties:
+        process_id:
+          type: integer
+          title: Process Id
+        filename:
+          type: string
+          title: Filename
+        status:
+          type: string
+          title: Status
+      type: object
+      required:
+      - process_id
+      - filename
+      - status
+      title: BatchEmailResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RealTimeEmailRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: RealTimeEmailRequest
+    Body_verify_email_batch_v2_email_verify_batch_post:
+      properties:
+        requested_file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Requested File
+      type: object
+      required:
+      - requested_file
+      title: Body_verify_email_batch_v2_email_verify_batch_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: x-key
