@@ -1,0 +1,65 @@
+generated: '2026-07-20'
+method: searched
+source:
+- openapi/revenuebase-openapi.json
+- https://docs.revenuebase.ai/docs/data-features/data-dictionary
+note: >-
+  RevenueBase's core data model is a B2B contact/company graph delivered via data
+  feeds (Snowflake/S3) and the v2 REST API. Join keys: RBID (person),
+  RBID_ORG (organization), LINKEDIN_URL. Never join on email address.
+entities:
+- name: Organization
+  aka: Company
+  table: ORG_LATEST / VELOCITY_* (data feeds)
+  key: rbid_org
+  api_schema: Company
+  fields:
+  - rbid
+  - company_name
+  - about_us
+  - headquarters_street
+  - headquarters_city
+  - headquarters_state
+  - headquarters_country
+  - similar_score
+  description: Company-level firmographics — industry, headcount, revenue, location,
+    funding stage, tech stack.
+- name: Person
+  aka: Contact
+  table: PER_LATEST (data feeds)
+  key: rbid
+  fields:
+  - rbid
+  - rbid_org
+  - linkedin_url
+  - verified_email
+  - job_title
+  - seniority
+  description: Individual verified contact records — verified emails, job titles,
+    seniority, direct dials.
+- name: Insight
+  table: Insight (data feeds)
+  key: rbid_org
+  description: Org-level technographics, hiring signals, funding events, engagement
+    indicators. Insights are org-level only (no contact-level insights).
+- name: HistoricalExperience
+  table: Historical Experience (data feeds)
+  key: rbid
+  description: Career history, past roles, tenure, professional trajectory.
+relationships:
+- from: Person
+  to: Organization
+  type: belongs_to
+  via: rbid_org
+- from: Insight
+  to: Organization
+  type: belongs_to
+  via: rbid_org
+- from: HistoricalExperience
+  to: Person
+  type: belongs_to
+  via: rbid
+join_keys:
+- rbid
+- rbid_org
+- linkedin_url

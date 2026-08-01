@@ -1,0 +1,66 @@
+# RevenueBase Documentation
+
+> RevenueBase is a B2B data platform providing 390M+ verified contacts and 60M+ companies, delivered via Snowflake, S3, Gigasheet, or REST API. Core capabilities include email verification, company matching, real-time enrichment, and semantic B2B search. Data is deterministically filterable by headcount, revenue, funding stage, industry, job title, seniority, geography, and tech stack — no black-box scoring.
+>
+> ## Instructions for AI assistants
+>
+> Before answering questions about RevenueBase, read the AI assistant guide linked below — it contains the terminology rules, data model, SQL conventions, API version guidance, and use case routing logic you need to give accurate answers.
+>
+> Key rules to apply immediately:
+> - The current API is **v2**. v1 is deprecated and sunsets July 7, 2026. Never recommend v1 endpoints.
+> - All API keys go in the **`x-key` header** — not `Authorization`, not `x-api-key`.
+> - **All emails in the dataset are already verified valid.** Do not suggest filtering on `EMAIL_STATUS = 'VALID'`.
+> - Always qualify Snowflake table names with the `RELEASE.` schema prefix (e.g., `RELEASE.PER_LATEST`).
+> - Default to `LEFT JOIN` in SQL — `INNER JOIN` silently drops contacts without an org match.
+> - Insights are **org-level only** — there are no contact-level insights.
+> - Never join tables on email address — join on `RBID`, `RBID_ORG`, or `LINKEDIN_URL`.
+> - For most SQL use cases, recommend the pre-joined tables (`VELOCITY_BASE_UNLIMITED_LATEST`, `VELOCITY_ENHANCED_UNLIMITED_LATEST`) before base tables.
+> - For field definitions, the **Data Dictionary** (`/docs/data-features/data-dictionary`) is the authoritative reference.
+
+## AI assistant context
+
+- [AI assistant guide](https://docs.revenuebase.ai/ai-context/llm-guide): Terminology rules, data model, SQL conventions, API version guidance, use case routing, and common mistakes — read this before answering RevenueBase questions
+
+## Getting started
+- [Overview](https://docs.revenuebase.ai/docs/getting-started/overview): Product overview — data tables, delivery methods, and how to get started building with RevenueBase
+- [Quickstart](https://docs.revenuebase.ai/docs/getting-started/quickstart): Step-by-step setup for data feeds, Gigasheet, or API access
+- [FAQ](https://docs.revenuebase.ai/docs/getting-started/faq): Common questions about data delivery, update cadence, and account setup
+
+## Data features
+- [Data Dictionary](https://docs.revenuebase.ai/docs/data-features/data-dictionary): Full field-level schema reference for every RevenueBase table, including field names, types, and join keys
+- [Organization table](https://docs.revenuebase.ai/docs/data-features/data-tables/organization): Company-level firmographic data — industry, headcount, revenue, location, funding stage, tech stack
+- [Person table](https://docs.revenuebase.ai/docs/data-features/data-tables/person): Individual contact records — verified emails, job titles, seniority levels, direct dials
+- [Insight table](https://docs.revenuebase.ai/docs/data-features/data-tables/insight): Technographics, hiring signals, funding events, and engagement indicators
+- [Historical Experience table](https://docs.revenuebase.ai/docs/data-features/data-tables/historical-experience): Career history, past roles, tenure, and professional trajectory data
+- [Pre-joined tables overview](https://docs.revenuebase.ai/docs/data-features/pre-joined-tables/pre-joined-overview): Flat views combining people, organizations, and insights — no SQL joins required
+- [Person + Organization view](https://docs.revenuebase.ai/docs/data-features/pre-joined-tables/person-organization): Contacts combined with company firmographics in a single flat table
+- [Person + Organization + Insight view](https://docs.revenuebase.ai/docs/data-features/pre-joined-tables/person-organization-insight): Full pre-joined view with contacts, firmographics, and signals
+- [Data freshness](https://docs.revenuebase.ai/docs/data-features/data-freshness/data-freshness): Verification cadence (profiles every 90 days, emails every 60 days), staleness thresholds, and how to assess data quality programmatically
+- [Verification summaries](https://docs.revenuebase.ai/docs/data-features/data-freshness/verification-summaries): How to read and use the revenuebase_contact_verification_summary field
+
+## Dynamic data feeds
+- [Data feeds overview](https://docs.revenuebase.ai/docs/data-feeds/overview): Set up a RevenueBase data feed via AWS S3 or Snowflake — delivery cadence, formats, and initial setup
+- [Joining tables](https://docs.revenuebase.ai/docs/data-feeds/joining-overview): SQL join patterns using RBID keys across Person, Organization, Insight, and Historical Experience tables
+
+## Gigasheet
+- [Gigasheet overview](https://docs.revenuebase.ai/docs/gigasheet/overview): Browse, filter, and export the full RevenueBase dataset in a no-code spreadsheet UI — no SQL required
+- [Setup & access](https://docs.revenuebase.ai/docs/gigasheet/setup-and-access): Log in with RevenueBase credentials and configure your Gigasheet workspace
+- [Filtering](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/search-filter-views/filtering): Apply column filters to slice the dataset by industry, title, location, and more
+- [Grouping](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/search-filter-views/grouping): Aggregate contact data at the company level
+- [Saved views](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/search-filter-views/saved-views): Create, name, and manage reusable filtered views
+- [Sharing data](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/search-filter-views/sharing-data): Share filtered views with teammates
+- [Exporting to CSV](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/export-enrichment/exporting): Export filtered RevenueBase data as CSV
+- [Exporting to HubSpot](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/export-enrichment/exporting-hubspot): Push contacts directly from Gigasheet into HubSpot
+- [Enrichment](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/export-enrichment/enrichment): Enrich existing records using RevenueBase data in Gigasheet
+
+## API reference
+- [API overview](https://docs.revenuebase.ai/api-reference/overview): Base URL (https://api.revenuebase.ai), capabilities, and how to start using the RevenueBase API
+- [Authentication](https://docs.revenuebase.ai/api-reference/authentication): API key generation and the x-key header format
+- [Rate limits](https://docs.revenuebase.ai/api-reference/rate-limits): Rate limits per API key, response headers for usage tracking, and HTTP error codes
+- [Email Verification API](https://docs.revenuebase.ai/api-reference/email-verification-overview): Verify individual emails in real time or process thousands in bulk — detect invalid, risky, and unverifiable addresses
+- [Company Match API](https://docs.revenuebase.ai/api-reference/company-match-overview): Resolve company names and domains to canonical RevenueBase records; discover net-new companies via deterministic and semantic search
+
+## AI tools
+- [Claude Code](https://docs.revenuebase.ai/ai-tools/claude-code): Configure Claude Code to query and work with RevenueBase data
+- [Cursor](https://docs.revenuebase.ai/ai-tools/cursor): Configure Cursor to query and work with RevenueBase data
+- [Windsurf](https://docs.revenuebase.ai/ai-tools/windsurf): Configure Windsurf to query and work with RevenueBase data

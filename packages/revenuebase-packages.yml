@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://pypi.org/pypi/revenuebase-sdk/json
+- https://github.com/revenuebase
+packages:
+- name: revenuebase-sdk
+  ecosystem: pypi
+  registry: https://pypi.org/project/revenuebase-sdk/
+  language: python
+  official: true
+  version: 0.3.0
+  license: MIT
+  requires_python: '>=3.8'
+  summary: Python SDK for the Revenuebase Email Verification and Company Resolver API.
+  import_name: revenuebase_sdk
+  repository: https://github.com/revenuebase/revenuebase-sdk
+  documentation: https://docs.revenuebase.ai
+  changelog: https://github.com/revenuebase/revenuebase-sdk/blob/main/CHANGELOG.md
+- name: n8n-nodes-revenuebase
+  ecosystem: github
+  registry: https://github.com/revenuebase/n8n-nodes-revenuebase
+  language: typescript
+  official: true
+  summary: n8n community node for RevenueBase (workflow automation integration).
+  note: Published in the RevenueBase GitHub org; not found on the npm registry as of probe.

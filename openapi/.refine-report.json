@@ -1,0 +1,20 @@
+{
+  "provider": "revenuebase",
+  "sources": [
+    "revenuebase-account-api-openapi.yml",
+    "revenuebase-email-api-openapi.yml",
+    "revenuebase-jobs-api-openapi.yml",
+    "revenuebase-organization-api-openapi.yml"
+  ],
+  "outputs": [
+    "revenuebase-account-api-openapi.yml",
+    "revenuebase-email-api-openapi.yml",
+    "revenuebase-jobs-api-openapi.yml",
+    "revenuebase-organization-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

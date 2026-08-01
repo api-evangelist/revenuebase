@@ -1,0 +1,49 @@
+generated: '2026-07-20'
+method: derived
+source:
+- openapi/revenuebase-openapi.json
+- https://docs.revenuebase.ai/api-reference/rate-limits
+format: none
+envelope: >-
+  RevenueBase does not use RFC 9457 application/problem+json. Validation errors
+  (422) return the FastAPI-style HTTPValidationError envelope: {"detail": [{"loc":
+  [...], "msg": "...", "type": "..."}]}. Business errors (400/402) return a JSON
+  body with a string detail/message and, for some cases, a documented error code
+  string (e.g. invalid_extension, upload_error, already_cancelled, not_cancellable,
+  not_completed, process_error).
+status_codes:
+- code: 400
+  title: Bad Request
+  meaning: Malformed request body, missing/invalid parameters, out-of-range values,
+    or a job that does not belong to your account.
+  codes:
+  - invalid_extension
+  - upload_error
+  - already_cancelled
+  - not_cancellable
+  - not_completed
+  - process_error
+- code: 401
+  title: Unauthorized
+  meaning: Missing or invalid API key (x-key header).
+- code: 402
+  title: Payment Required
+  meaning: Insufficient credits. Recharge the account before retrying.
+  remediation: Check GET /v2/account/balance and top up credits.
+- code: 403
+  title: Forbidden
+  meaning: Key is valid but not authorized for this endpoint.
+- code: 404
+  title: Not Found
+  meaning: Endpoint or resource does not exist.
+- code: 422
+  title: Unprocessable Entity
+  meaning: Request parsed correctly but failed field validation (HTTPValidationError).
+  schema: HTTPValidationError
+- code: 429
+  title: Too Many Requests
+  meaning: Rate limit exceeded for the API key. Email verify is limited to 5 req/sec.
+  remediation: Read X-RateLimit-Reset before retrying.
+- code: 500
+  title: Internal Server Error
+  meaning: Unexpected error on the RevenueBase side.

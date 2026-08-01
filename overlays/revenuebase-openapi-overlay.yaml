@@ -1,0 +1,47 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for RevenueBase API v2
+  version: 1.0.0
+x-provenance:
+  generated: '2026-07-20'
+  method: generated
+  source: openapi/revenuebase-openapi.json
+  note: >-
+    Non-destructive enhancement layer over the published RevenueBase v2 OpenAPI.
+    Adds contact, licensing, external docs, and cross-cutting metadata captured
+    during enrichment. Does not mutate the original specification.
+extends: openapi/revenuebase-openapi.json
+actions:
+- target: $.info
+  update:
+    description: >-
+      RevenueBase API v2 — the trust layer for B2B data. Real-time email
+      verification, batch verification jobs, and organization resolution/discovery
+      over 390M+ verified contacts and 60M+ companies. Authenticate with an API
+      key in the `x-key` header. v1 is deprecated (sunset 2026-07-07).
+    contact:
+      name: RevenueBase Support
+      url: https://revenuebase.ai/contact
+      email: null
+    license:
+      name: Proprietary
+      url: https://revenuebase.ai/stc
+    termsOfService: https://revenuebase.ai/stc
+- target: $
+  update:
+    externalDocs:
+      description: RevenueBase API reference
+      url: https://docs.revenuebase.ai/api-reference/overview
+    x-rate-limiting:
+      headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - X-RateLimit-Reset
+      status: 429
+    x-metering:
+      model: credits
+      balance_operation: get_usage_v2_account_balance_get
+- target: $.servers
+  update:
+  - url: https://api.revenuebase.ai
+    description: RevenueBase production API (v2)

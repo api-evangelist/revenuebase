@@ -1,22 +1,136 @@
 aid: revenuebase
 name: RevenueBase
-description: 'RevenueBase is a company surfaced as a portfolio company of bessemer-venture-partners and
-  added to the API Evangelist network as a stub for enrichment. Sector: unknown. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  RevenueBase is a B2B data infrastructure platform — "the trust layer for B2B
+  data" — providing 390M+ continuously verified contacts and 60M+ companies
+  delivered via Snowflake, S3, Gigasheet, or a REST API. Core capabilities include
+  real-time and batch email verification, deterministic and semantic company
+  matching/resolution, organization discovery, and record enrichment, with data
+  filterable by headcount, revenue, funding stage, industry, job title, seniority,
+  geography, and tech stack. The v2 REST API authenticates with an API key in the
+  x-key header and meters usage in credits. Originally surfaced as a Bessemer
+  Venture Partners portfolio company and enriched into the API Evangelist network.
 url: https://raw.githubusercontent.com/api-evangelist/revenuebase/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - bessemer-venture-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enriched-from-live-api
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/69aeeb63d4c5075af2fb954d/69dcb129729f9ab3c0816e26_RevenueBase-Favicon-32x32px.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-- Unknown
-apis: []
+- B2B Data
+- Data Enrichment
+- Email Verification
+- Contact Data
+- Company Data
+- Lead Intelligence
+- Sales Intelligence
+apis:
+- aid: revenuebase:revenuebase-account-api
+  name: RevenueBase Account API
+  description: The Account API from RevenueBase — 2 operation(s) for account.
+  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-account-api-openapi.yml
+  - type: Documentation
+    url: https://docs.revenuebase.ai/
+  - type: APIReference
+    url: https://docs.revenuebase.ai/api-reference/overview
+  - type: GettingStarted
+    url: https://docs.revenuebase.ai/docs/getting-started/overview
+  - type: Quickstart
+    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+  - type: Authentication
+    url: authentication/revenuebase-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revenuebase-problem-types.yml
+- aid: revenuebase:revenuebase-email-api
+  name: RevenueBase Email API
+  description: The Email API from RevenueBase — 2 operation(s) for email.
+  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - Email
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-email-api-openapi.yml
+  - type: Documentation
+    url: https://docs.revenuebase.ai/
+  - type: APIReference
+    url: https://docs.revenuebase.ai/api-reference/overview
+  - type: GettingStarted
+    url: https://docs.revenuebase.ai/docs/getting-started/overview
+  - type: Quickstart
+    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+  - type: Authentication
+    url: authentication/revenuebase-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revenuebase-problem-types.yml
+- aid: revenuebase:revenuebase-jobs-api
+  name: RevenueBase Jobs API
+  description: The Jobs API from RevenueBase — 4 operation(s) for jobs.
+  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - Jobs
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-jobs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.revenuebase.ai/
+  - type: APIReference
+    url: https://docs.revenuebase.ai/api-reference/overview
+  - type: GettingStarted
+    url: https://docs.revenuebase.ai/docs/getting-started/overview
+  - type: Quickstart
+    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+  - type: Authentication
+    url: authentication/revenuebase-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revenuebase-problem-types.yml
+- aid: revenuebase:revenuebase-organization-api
+  name: RevenueBase Organization API
+  description: The Organization API from RevenueBase — 2 operation(s) for organization.
+  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-organization-api-openapi.yml
+  - type: Documentation
+    url: https://docs.revenuebase.ai/
+  - type: APIReference
+    url: https://docs.revenuebase.ai/api-reference/overview
+  - type: GettingStarted
+    url: https://docs.revenuebase.ai/docs/getting-started/overview
+  - type: Quickstart
+    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+  - type: Authentication
+    url: authentication/revenuebase-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revenuebase-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -25,3 +139,76 @@ maintainers:
 common:
 - type: Website
   url: https://revenuebase.ai/
+- type: DeveloperPortal
+  url: https://docs.revenuebase.ai/
+- type: Documentation
+  url: https://docs.revenuebase.ai/
+- type: APIReference
+  url: https://docs.revenuebase.ai/api-reference/overview
+- type: GettingStarted
+  url: https://docs.revenuebase.ai/docs/getting-started/overview
+- type: Quickstart
+  url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+- type: Authentication
+  url: authentication/revenuebase-authentication.yml
+- type: DomainSecurity
+  url: security/revenuebase-domain-security.yml
+- type: OpenAPI
+  url: openapi/revenuebase-openapi.json
+- type: Overlay
+  url: overlays/revenuebase-openapi-overlay.yaml
+- type: MCPServer
+  url: mcp/revenuebase-mcp.yml
+- type: ErrorCatalog
+  url: errors/revenuebase-problem-types.yml
+- type: Conventions
+  url: conventions/revenuebase-conventions.yml
+- type: Conformance
+  url: conformance/revenuebase-conformance.yml
+- type: Lifecycle
+  url: lifecycle/revenuebase-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/revenuebase-lifecycle.yml
+- type: StatusPage
+  url: https://status.revenuebase.ai/
+- type: ChangeLog
+  url: changelog/revenuebase-changelog.yml
+- type: DataModel
+  url: data-model/revenuebase-data-model.yml
+- type: Packages
+  url: packages/revenuebase-packages.yml
+- type: SDKs
+  url: packages/revenuebase-packages.yml
+- type: WellKnown
+  url: well-known/revenuebase-well-known.yml
+- type: LLMsTxt
+  url: llms/revenuebase-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: RateLimits
+  url: https://docs.revenuebase.ai/api-reference/rate-limits
+- type: Blog
+  url: https://revenuebase.ai/blog
+- type: Pricing
+  url: https://revenuebase.ai/pricing
+- type: SignUp
+  url: https://app.revenuebase.ai/
+- type: Login
+  url: https://app.revenuebase.ai/
+- type: Support
+  url: https://revenuebase.ai/contact
+- type: GitHubOrganization
+  url: https://github.com/revenuebase
+- type: TermsOfService
+  url: https://revenuebase.ai/stc
+- type: PrivacyPolicy
+  url: https://revenuebase.ai/privacy-policy
+- type: LinkedIn
+  url: https://www.linkedin.com/company/revenue-base/
+- type: Twitter
+  url: https://x.com/revenuebase
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v1

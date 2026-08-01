@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: derived
+source:
+- openapi/revenuebase-openapi.json
+- https://docs.revenuebase.ai/api-reference/rate-limits
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: Published OpenAPI 3.1.0 description served at api.revenuebase.ai/v2/openapi.json.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme; API-key-only (x-key header).
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect / openid-configuration document (probe returned 404).
+- id: rfc9457
+  conforms: false
+  evidence: Errors use FastAPI HTTPValidationError, not application/problem+json.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key header or documented idempotent-retry semantics.
+- id: pagination
+  conforms: false
+  evidence: No standard cursor/offset pagination; result_count params instead.
+- id: rate-limit-headers
+  conforms: true
+  evidence: Standard X-RateLimit-Limit/Remaining/Reset headers with 429 on exceed.
+- id: json-api
+  conforms: false
+  evidence: Plain JSON payloads; not JSON:API media type.

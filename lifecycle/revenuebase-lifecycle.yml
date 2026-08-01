@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://docs.revenuebase.ai/llms.txt
+- https://docs.revenuebase.ai/api-reference/overview
+- https://status.revenuebase.ai/
+versioning:
+  style: uri-path
+  current: v2
+  detail: API version is carried in the URL path (/v2/...). v2 is the current API.
+deprecation:
+  policy_documented: true
+  detail: >-
+    API v1 is deprecated and sunsets July 7, 2026. RevenueBase instructs clients
+    and AI assistants to never recommend or use v1 endpoints. v2 is the supported
+    replacement.
+  deprecated_versions:
+  - version: v1
+    status: deprecated
+    sunset: '2026-07-07'
+status_page:
+  url: https://status.revenuebase.ai/
+  reachable: true
+data_freshness:
+  detail: >-
+    Not an API deprecation signal, but a documented data lifecycle: profiles are
+    re-verified every 90 days and emails every 60 days; 1B+ verification signals
+    processed monthly.
+  source: https://docs.revenuebase.ai/docs/data-features/data-freshness/data-freshness
+sla: null

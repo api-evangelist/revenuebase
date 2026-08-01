@@ -1,0 +1,53 @@
+generated: '2026-07-20'
+method: searched
+source:
+- openapi/revenuebase-openapi.json
+- https://docs.revenuebase.ai/api-reference/authentication
+- https://docs.revenuebase.ai/api-reference/rate-limits
+api: Revenuebase API v2
+base_url: https://api.revenuebase.ai
+authentication:
+  style: api-key-header
+  header: x-key
+  ref: authentication/revenuebase-authentication.yml
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency key mechanism is documented. Batch operations are made safe
+    instead via server-issued process_id job tracking (submit -> poll -> download).
+pagination:
+  style: none
+  detail: >-
+    No cursor/offset pagination. Result-set size is controlled by request-body
+    params: organization/resolve result_count (1-10), organization/discover
+    result_count (1-10000) with min_similarity_score (0-0.95). Batch jobs are
+    retrieved by process_id rather than paged.
+versioning:
+  style: uri-path
+  current: v2
+  ref: lifecycle/revenuebase-lifecycle.yml
+rate_limiting:
+  signaling: headers
+  headers:
+  - X-RateLimit-Limit
+  - X-RateLimit-Remaining
+  - X-RateLimit-Reset
+  status: 429
+  known_limits:
+  - endpoint: POST /v2/email/verify
+    limit: 5 requests/second
+error_envelope:
+  format: none
+  detail: FastAPI HTTPValidationError for 422; string detail/error-code for 400/402.
+  ref: errors/revenuebase-problem-types.yml
+metering:
+  model: credits
+  detail: >-
+    Usage is metered in credits. A Valid or Invalid email result deducts 1 credit;
+    organization/resolve deducts 1 credit per request; organization/discover
+    deducts credits only for results at/above min_similarity_score. Balance via
+    GET /v2/account/balance; 402 when insufficient.
+join_keys:
+  detail: >-
+    Data-model join convention: join on RBID, RBID_ORG, or LINKEDIN_URL — never on
+    email address. All dataset emails are pre-verified valid.

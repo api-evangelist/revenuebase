@@ -1,0 +1,32 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://pypi.org/pypi/revenuebase-sdk/json
+- https://docs.revenuebase.ai/llms.txt
+note: >-
+  RevenueBase does not publish a dated API changelog page in its docs. The most
+  authoritative dated release history is the official Python SDK on PyPI, tracked
+  below, plus the platform-level v1 -> v2 API deprecation milestone. The SDK also
+  maintains a CHANGELOG.md in its GitHub repository.
+api_milestones:
+- date: '2026-07-07'
+  type: breaking
+  highlight: API v1 sunset. v2 is the sole supported API.
+scheme: semver
+component: revenuebase-sdk (PyPI)
+current_version: 0.3.0
+changelog_doc: https://github.com/revenuebase/revenuebase-sdk/blob/main/CHANGELOG.md
+entries:
+- version: 0.3.0
+  date: '2026-07-16'
+  breaking: false
+- version: 0.2.1
+  date: '2026-05-11'
+  breaking: false
+- version: 0.2.0
+  date: '2026-05-11'
+  breaking: false
+- version: 0.1.0
+  date: '2026-04-08'
+  breaking: false
+  highlight: Initial public release of the Python SDK.

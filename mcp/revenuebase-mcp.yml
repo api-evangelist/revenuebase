@@ -1,0 +1,66 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: openapi/revenuebase-openapi.json
+note: >-
+  RevenueBase does not publish a hosted/remote MCP server (no mcp.revenuebase.ai,
+  api.revenuebase.ai/mcp returns 404, and the docs "AI tools" section only covers
+  Claude Code / Cursor / Windsurf editor configuration, not an MCP endpoint). The
+  tool list below is a CANDIDATE derived one-to-one from the v2 OpenAPI operations
+  to illustrate a possible MCP surface — it is not an official RevenueBase server.
+server:
+  name: revenuebase
+  transport: null
+  url: null
+  published: false
+tools:
+- name: get_account_balance
+  operationId: get_usage_v2_account_balance_get
+  method: GET
+  path: /v2/account/balance
+  description: Return remaining validation credits on the account.
+- name: rotate_api_key
+  operationId: rotate_api_key_v2_account_api_keys_rotate_post
+  method: POST
+  path: /v2/account/api-keys/rotate
+  description: Generate a new API key and invalidate the previous one.
+- name: verify_email
+  operationId: verify_email_v2_email_verify_post
+  method: POST
+  path: /v2/email/verify
+  description: Verify a single email address synchronously (Valid/Invalid/Unknown).
+- name: verify_email_batch
+  operationId: verify_email_batch_v2_email_verify_batch_post
+  method: POST
+  path: /v2/email/verify/batch
+  description: Upload a CSV/JSON file and queue it for asynchronous verification.
+- name: list_jobs
+  operationId: list_jobs_v2_jobs_get
+  method: GET
+  path: /v2/jobs
+  description: List batch jobs currently QUEUED or PROCESSING.
+- name: get_job
+  operationId: get_job_v2_jobs__process_id__get
+  method: GET
+  path: /v2/jobs/{process_id}
+  description: Get the current processing status of a batch job.
+- name: cancel_job
+  operationId: cancel_job_v2_jobs__process_id__cancel_post
+  method: POST
+  path: /v2/jobs/{process_id}/cancel
+  description: Mark a batch job for cancellation.
+- name: download_job
+  operationId: download_job_v2_jobs__process_id__download_get
+  method: GET
+  path: /v2/jobs/{process_id}/download
+  description: Download the processed output file for a completed/cancelled job.
+- name: resolve_organization
+  operationId: resolve_company_v2_organization_resolve_post
+  method: POST
+  path: /v2/organization/resolve
+  description: Match an organization name to a verified RevenueBase record.
+- name: discover_organizations
+  operationId: discover_company_v2_organization_discover_post
+  method: POST
+  path: /v2/organization/discover
+  description: Discover organizations by keyword via semantic search.

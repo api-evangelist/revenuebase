@@ -1,0 +1,35 @@
+generated: '2026-07-20'
+method: probed
+source: live HTTP probes of RevenueBase hosts
+note: >-
+  No .well-known documents were served by any RevenueBase host at probe time.
+  All standard paths returned 404. Recorded for provenance; absence is valid data.
+probes:
+- host: revenuebase.ai
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/security.txt
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/security.txt
+  status: 404
+  file: null

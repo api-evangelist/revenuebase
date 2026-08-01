@@ -1,0 +1,1004 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Revenuebase API v2",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.revenuebase.ai"
+    }
+  ],
+  "paths": {
+    "/v2/account/balance": {
+      "get": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Get your remaining credit balance",
+        "description": "Returns the number of validation credits remaining on your account. Each `Valid` or `Invalid` result deducts 1 credit.",
+        "operationId": "get_usage_v2_account_balance_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nusage = client.account.balance()\nprint(usage.credits)"
+          }
+        ]
+      }
+    },
+    "/v2/account/api-keys/rotate": {
+      "post": {
+        "tags": [
+          "Account"
+        ],
+        "summary": "Rotate your API key",
+        "description": "Generates a new API key and immediately invalidates the previous one. Update all integrations with the new key before making further requests.",
+        "operationId": "rotate_api_key_v2_account_api_keys_rotate_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewKeyResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresponse = client.account.rotate_api_key()\nprint(response.api_key)"
+          }
+        ]
+      }
+    },
+    "/v2/email/verify": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Verify a single email address",
+        "description": "Verifies one email address synchronously. Returns `Valid`, `Invalid`, or `Unknown`. Set `metadata=true` to include MX record presence, email provider, security gateway, and failure reason. Deducts 1 credit on `Valid` or `Invalid` results. Rate limited to 5 request per second.\n\n**Errors**\n- `402` \u2014 Insufficient credits. Recharge your account before retrying.",
+        "operationId": "verify_email_v2_email_verify_post",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "metadata",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Include detailed metadata in response",
+              "default": false,
+              "title": "Metadata"
+            },
+            "description": "Include detailed metadata in response"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RealTimeEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Verify Email V2 Email Verify Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.email.verify(email=\"user@example.com\")\nprint(result.status)  # \"Valid\", \"Invalid\", or \"Unknown\""
+          }
+        ]
+      }
+    },
+    "/v2/email/verify/batch": {
+      "post": {
+        "tags": [
+          "Email"
+        ],
+        "summary": "Upload a batch file for email verification",
+        "description": "Accepts a `.csv` or `.json` file and queues it for asynchronous processing. Returns a `process_id` \u2014 use it to poll status or download results when complete. Set `metadata=true` to include MX record, email provider, and failure reason fields in the output file.\n\n**Errors**\n- `400 invalid_extension` \u2014 File must be `.csv` or `.json`.\n- `400 upload_error` \u2014 File upload failed. Contact support.",
+        "operationId": "verify_email_batch_v2_email_verify_batch_post",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "metadata",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Include metadata fields in output file",
+              "default": false,
+              "title": "Metadata"
+            },
+            "description": "Include metadata fields in output file"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_verify_email_batch_v2_email_verify_batch_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEmailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nwith open(\"emails.csv\", \"rb\") as f:\n    job = client.email.batch_upload(file=f, filename=\"emails.csv\")\n\nprint(job.process_id)"
+          }
+        ]
+      }
+    },
+    "/v2/jobs": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "List active batch jobs",
+        "description": "Returns all batch jobs in `QUEUED` or `PROCESSING` status for your account. Use the `process_id` from each result to poll individual job status or cancel.",
+        "operationId": "list_jobs_v2_jobs_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueuedProcessesResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\njobs = client.jobs.list()\nfor job in jobs.processes:\n    print(job.process_id, job.status)"
+          }
+        ]
+      }
+    },
+    "/v2/jobs/{process_id}": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Get batch job status",
+        "description": "Returns the current processing status for a batch job. Only the user who submitted the job can query it.\n\nPossible statuses: `QUEUED`, `PROCESSING`, `COMPLETED`, `ERROR`, `CANCELLING`, `CANCELLED`.\n\n**Errors**\n- `400` \u2014 Invalid `process_id` or job does not belong to your account.",
+        "operationId": "get_job_v2_jobs__process_id__get",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Process Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEmailStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\njob = client.jobs.get(process_id=42)\nprint(job.current_status)"
+          }
+        ]
+      }
+    },
+    "/v2/jobs/{process_id}/cancel": {
+      "post": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Cancel a batch job",
+        "description": "Marks a batch job for cancellation. Jobs in `QUEUED` state will not be processed. Jobs in `PROCESSING` state may not stop immediately.\n\n**Errors**\n- `400 already_cancelled` \u2014 Job is already `CANCELLED` or `CANCELLING`.\n- `400 not_cancellable` \u2014 Job has status `COMPLETED` or `ERROR`.\n- `400` \u2014 Invalid `process_id` or job does not belong to your account.",
+        "operationId": "cancel_job_v2_jobs__process_id__cancel_post",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Process Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchEmailStatusResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\njob = client.jobs.cancel(process_id=42)\nprint(job.current_status)  # \"CANCELLING\""
+          }
+        ]
+      }
+    },
+    "/v2/jobs/{process_id}/download": {
+      "get": {
+        "tags": [
+          "Jobs"
+        ],
+        "summary": "Download batch job results",
+        "description": "Streams the processed output file for a completed or cancelled batch job. The response includes a `Content-Disposition` header with the original filename.\n\n**Errors**\n- `400 not_completed` \u2014 Job must be `COMPLETED` or `CANCELLED` before downloading.\n- `400 process_error` \u2014 Job ended with an error. No output file available.\n- `400` \u2014 Invalid `process_id` or job does not belong to your account.",
+        "operationId": "download_job_v2_jobs__process_id__download_get",
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "process_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Process Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Download Job V2 Jobs  Process Id  Download Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\ndata = client.jobs.download(process_id=42)\nwith open(\"results.csv\", \"wb\") as f:\n    f.write(data)"
+          }
+        ]
+      }
+    },
+    "/v2/organization/resolve": {
+      "post": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Match an organization name to a verified record",
+        "description": "Uses semantic search to find the closest matching organizations for a given name. Optionally filter by headquarters location. Returns up to 10 results ranked by similarity score. Deducts 1 credit per request.\n\n`result_count` must be between 1 and 10 (inclusive).\n\n**Errors**\n- `400` \u2014 `result_count` is out of the allowed range.\n- `402` \u2014 Insufficient credits.",
+        "operationId": "resolve_company_v2_organization_resolve_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyResolverRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyResolverResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.organization.resolve(\n    company_name=\"Acme Corp\",\n    result_count=5,\n    headquarters_country=\"US\",\n)\nfor org in result.companies:\n    print(org.company_name, org.similar_score)"
+          }
+        ]
+      }
+    },
+    "/v2/organization/discover": {
+      "post": {
+        "tags": [
+          "Organization"
+        ],
+        "summary": "Discover organizations by keyword",
+        "description": "Uses semantic search to find organizations matching a keyword or natural-language description. Optionally filter by headquarters location. Returns up to 10,000 results ranked by similarity score. Credits are deducted only for results that meet the `min_similarity_score` threshold.\n\n`result_count` must be between 1 and 10000 (inclusive).\n`min_similarity_score` must be between 0 and 0.95 (inclusive). Defaults to 0.\n\n**Errors**\n- `400` \u2014 `result_count` is out of the allowed range, or `min_similarity_score` is outside 0\u20130.95.\n- `402` \u2014 Insufficient credits.",
+        "operationId": "discover_company_v2_organization_discover_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanyDiscoverRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompanyResolverResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "APIKeyHeader": []
+          }
+        ],
+        "x-codeSamples": [
+          {
+            "lang": "Python",
+            "label": "Python SDK",
+            "source": "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.organization.discover(\n    keyword=\"enterprise SaaS cybersecurity\",\n    result_count=50,\n    headquarters_country=\"US\",\n)\nfor org in result.companies:\n    print(org.company_name, org.about_us)"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BatchEmailResponse": {
+        "properties": {
+          "process_id": {
+            "type": "integer",
+            "title": "Process Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "process_id",
+          "filename",
+          "status"
+        ],
+        "title": "BatchEmailResponse"
+      },
+      "BatchEmailStatusResponse": {
+        "properties": {
+          "process_id": {
+            "type": "integer",
+            "title": "Process Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "current_status": {
+            "type": "string",
+            "title": "Current Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "process_id",
+          "filename",
+          "current_status",
+          "message"
+        ],
+        "title": "BatchEmailStatusResponse"
+      },
+      "Body_verify_email_batch_v2_email_verify_batch_post": {
+        "properties": {
+          "requested_file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Requested File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "requested_file"
+        ],
+        "title": "Body_verify_email_batch_v2_email_verify_batch_post"
+      },
+      "Company": {
+        "properties": {
+          "rbid": {
+            "type": "string",
+            "title": "Rbid"
+          },
+          "company_name": {
+            "type": "string",
+            "title": "Company Name"
+          },
+          "similar_score": {
+            "type": "number",
+            "title": "Similar Score"
+          },
+          "about_us": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "About Us"
+          },
+          "headquarters_street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Street"
+          },
+          "headquarters_city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters City"
+          },
+          "headquarters_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters State"
+          },
+          "headquarters_zip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Zip"
+          },
+          "headquarters_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Country"
+          }
+        },
+        "type": "object",
+        "required": [
+          "rbid",
+          "company_name",
+          "similar_score"
+        ],
+        "title": "Company"
+      },
+      "CompanyDiscoverRequest": {
+        "properties": {
+          "result_count": {
+            "type": "integer",
+            "title": "Result Count",
+            "default": 1000
+          },
+          "keyword": {
+            "type": "string",
+            "title": "Keyword"
+          },
+          "min_similarity_score": {
+            "type": "number",
+            "maximum": 0.95,
+            "minimum": 0.0,
+            "title": "Min Similarity Score",
+            "description": "Minimum similarity score (0\u20130.95). Only results at or above this threshold are returned and charged.",
+            "default": 0
+          },
+          "headquarters_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters State"
+          },
+          "headquarters_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Country"
+          },
+          "headquarters_city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters City",
+            "description": "Case-sensitive. Must match the city name exactly as stored."
+          },
+          "headquarters_street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Street"
+          },
+          "headquarters_zip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Zip"
+          }
+        },
+        "type": "object",
+        "required": [
+          "keyword"
+        ],
+        "title": "CompanyDiscoverRequest"
+      },
+      "CompanyResolverRequest": {
+        "properties": {
+          "result_count": {
+            "type": "integer",
+            "title": "Result Count",
+            "default": 3
+          },
+          "company_name": {
+            "type": "string",
+            "title": "Company Name"
+          },
+          "headquarters_state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters State"
+          },
+          "headquarters_country": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Country"
+          },
+          "headquarters_city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters City"
+          },
+          "headquarters_street": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Street"
+          },
+          "headquarters_zip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Headquarters Zip"
+          }
+        },
+        "type": "object",
+        "required": [
+          "company_name"
+        ],
+        "title": "CompanyResolverRequest"
+      },
+      "CompanyResolverResponse": {
+        "properties": {
+          "companies": {
+            "items": {
+              "$ref": "#/components/schemas/Company"
+            },
+            "type": "array",
+            "title": "Companies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "companies"
+        ],
+        "title": "CompanyResolverResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "NewKeyResponse": {
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "title": "Api Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "api_key"
+        ],
+        "title": "NewKeyResponse"
+      },
+      "Process": {
+        "properties": {
+          "process_id": {
+            "type": "integer",
+            "title": "Process Id"
+          },
+          "filename": {
+            "type": "string",
+            "title": "Filename"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Updated"
+          }
+        },
+        "type": "object",
+        "required": [
+          "process_id",
+          "filename",
+          "status",
+          "message",
+          "last_updated"
+        ],
+        "title": "Process"
+      },
+      "QueuedProcessesResponse": {
+        "properties": {
+          "processes": {
+            "items": {
+              "$ref": "#/components/schemas/Process"
+            },
+            "type": "array",
+            "title": "Processes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "processes"
+        ],
+        "title": "QueuedProcessesResponse"
+      },
+      "RealTimeEmailRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "title": "RealTimeEmailRequest"
+      },
+      "UsageResponse": {
+        "properties": {
+          "credits": {
+            "type": "integer",
+            "title": "Credits"
+          }
+        },
+        "type": "object",
+        "required": [
+          "credits"
+        ],
+        "title": "UsageResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "APIKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-key"
+      }
+    }
+  }
+}

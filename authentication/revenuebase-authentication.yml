@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: searched
+source: openapi/revenuebase-openapi.json
+docs: https://docs.revenuebase.ai/api-reference/authentication
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  notes: >-
+    RevenueBase uses API key authentication exclusively. The key is passed in
+    the `x-key` request header (not `Authorization`, not `x-api-key`). Keys are
+    generated in the dashboard at https://app.revenuebase.ai under the Developers
+    section (Production API Key). No documented key prefix. Keys can be rotated
+    programmatically via POST /v2/account/api-keys/rotate, which immediately
+    invalidates the previous key.
+schemes:
+- name: APIKeyHeader
+  type: apiKey
+  in: header
+  parameter: x-key
+  dashboard: https://app.revenuebase.ai
+  rotation_operation: rotate_api_key_v2_account_api_keys_rotate_post
+  sources:
+  - openapi/revenuebase-openapi.json
+  - https://docs.revenuebase.ai/api-reference/authentication
