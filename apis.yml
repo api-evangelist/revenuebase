@@ -154,7 +154,7 @@ common:
 - type: DomainSecurity
   url: security/revenuebase-domain-security.yml
 - type: OpenAPI
-  url: openapi/revenuebase-openapi.json
+  url: openapi/_original/revenuebase-openapi.json
 - type: Overlay
   url: overlays/revenuebase-openapi-overlay.yaml
 - type: MCPServer
