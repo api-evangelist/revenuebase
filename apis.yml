@@ -2,8 +2,9 @@ aid: revenuebase
 name: RevenueBase
 description: >-
   RevenueBase is a B2B data infrastructure platform — "the trust layer for B2B
-  data" — providing 390M+ continuously verified contacts and 60M+ companies
-  delivered via Snowflake, S3, Gigasheet, or a REST API. Core capabilities include
+  data" — providing 400M+ continuously verified contacts (399M as of the August
+  2026 release notes) and 65M+ companies delivered via Snowflake, S3, Gigasheet,
+  or a REST API. Core capabilities include
   real-time and batch email verification, deterministic and semantic company
   matching/resolution, organization discovery, and record enrichment, with data
   filterable by headcount, revenue, funding stage, industry, job title, seniority,
@@ -32,7 +33,7 @@ accessModel:
 image: https://cdn.prod.website-files.com/69aeeb63d4c5075af2fb954d/69dcb129729f9ab3c0816e26_RevenueBase-Favicon-32x32px.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-13'
 tags:
 - Company
 - B2B Data
@@ -46,7 +47,7 @@ apis:
 - aid: revenuebase:revenuebase-account-api
   name: RevenueBase Account API
   description: The Account API from RevenueBase — 2 operation(s) for account.
-  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
   - Account
@@ -56,11 +57,11 @@ apis:
   - type: Documentation
     url: https://docs.revenuebase.ai/
   - type: APIReference
-    url: https://docs.revenuebase.ai/api-reference/overview
+    url: https://docs.revenuebase.ai/api-reference/v2/overview
   - type: GettingStarted
     url: https://docs.revenuebase.ai/docs/getting-started/overview
   - type: Quickstart
-    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+    url: https://docs.revenuebase.ai/api-reference/v2/make-first-call
   - type: Authentication
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
@@ -68,7 +69,7 @@ apis:
 - aid: revenuebase:revenuebase-email-api
   name: RevenueBase Email API
   description: The Email API from RevenueBase — 2 operation(s) for email.
-  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
   - Email
@@ -78,11 +79,11 @@ apis:
   - type: Documentation
     url: https://docs.revenuebase.ai/
   - type: APIReference
-    url: https://docs.revenuebase.ai/api-reference/overview
+    url: https://docs.revenuebase.ai/api-reference/v2/overview
   - type: GettingStarted
     url: https://docs.revenuebase.ai/docs/getting-started/overview
   - type: Quickstart
-    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+    url: https://docs.revenuebase.ai/api-reference/v2/make-first-call
   - type: Authentication
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
@@ -90,7 +91,7 @@ apis:
 - aid: revenuebase:revenuebase-jobs-api
   name: RevenueBase Jobs API
   description: The Jobs API from RevenueBase — 4 operation(s) for jobs.
-  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
   - Jobs
@@ -100,11 +101,11 @@ apis:
   - type: Documentation
     url: https://docs.revenuebase.ai/
   - type: APIReference
-    url: https://docs.revenuebase.ai/api-reference/overview
+    url: https://docs.revenuebase.ai/api-reference/v2/overview
   - type: GettingStarted
     url: https://docs.revenuebase.ai/docs/getting-started/overview
   - type: Quickstart
-    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+    url: https://docs.revenuebase.ai/api-reference/v2/make-first-call
   - type: Authentication
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
@@ -112,7 +113,7 @@ apis:
 - aid: revenuebase:revenuebase-organization-api
   name: RevenueBase Organization API
   description: The Organization API from RevenueBase — 2 operation(s) for organization.
-  humanURL: https://docs.revenuebase.ai/api-reference/overview
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
   - Organization
@@ -122,11 +123,36 @@ apis:
   - type: Documentation
     url: https://docs.revenuebase.ai/
   - type: APIReference
-    url: https://docs.revenuebase.ai/api-reference/overview
+    url: https://docs.revenuebase.ai/api-reference/v2/overview
   - type: GettingStarted
     url: https://docs.revenuebase.ai/docs/getting-started/overview
   - type: Quickstart
-    url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+    url: https://docs.revenuebase.ai/api-reference/v2/make-first-call
+  - type: Authentication
+    url: authentication/revenuebase-authentication.yml
+  - type: ErrorCatalog
+    url: errors/revenuebase-problem-types.yml
+- aid: revenuebase:revenuebase-contact-refresh-api
+  name: RevenueBase Contact Refresh API
+  description: >-
+    The contact-refresh service from RevenueBase — resolves an email address to the
+    person's current contact records so a stale CRM row can be reconnected to whoever
+    that person is today. One operation (POST /v2/contact/refresh/email) plus shallow
+    and deep health probes. Marketed on the pricing page as "Reconnect to find contacts
+    who changed companies" and still labelled coming soon there, but the endpoint is
+    live on api.revenuebase.ai and its OpenAPI 3.1.0 is published through the
+    documentation host. Authenticates with the same API key, passed as X-Key, and is
+    the only RevenueBase surface that returns RFC 9457 application/problem+json.
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - Contact
+  - Enrichment
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/revenuebase-contact-refresh-openapi.json
+  - type: Documentation
+    url: https://docs.revenuebase.ai/
   - type: Authentication
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
@@ -137,6 +163,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/revenuebase-agentic-access.yml
 - type: Website
   url: https://revenuebase.ai/
 - type: DeveloperPortal
@@ -144,11 +172,11 @@ common:
 - type: Documentation
   url: https://docs.revenuebase.ai/
 - type: APIReference
-  url: https://docs.revenuebase.ai/api-reference/overview
+  url: https://docs.revenuebase.ai/api-reference/v2/overview
 - type: GettingStarted
   url: https://docs.revenuebase.ai/docs/getting-started/overview
 - type: Quickstart
-  url: https://docs.revenuebase.ai/docs/getting-started/quickstart
+  url: https://docs.revenuebase.ai/api-reference/v2/make-first-call
 - type: Authentication
   url: authentication/revenuebase-authentication.yml
 - type: DomainSecurity
@@ -186,7 +214,7 @@ common:
 - type: AgentSkill
   url: skills/_index.yml
 - type: RateLimits
-  url: https://docs.revenuebase.ai/api-reference/rate-limits
+  url: rate-limits/revenuebase-rate-limits.yml
 - type: Blog
   url: https://revenuebase.ai/blog
 - type: Pricing
@@ -200,15 +228,26 @@ common:
 - type: GitHubOrganization
   url: https://github.com/revenuebase
 - type: TermsOfService
-  url: https://revenuebase.ai/stc
+  url: https://revenuebase.ai/stc-01-14-2024
 - type: PrivacyPolicy
   url: https://revenuebase.ai/privacy-policy
 - type: LinkedIn
   url: https://www.linkedin.com/company/revenue-base/
 - type: Twitter
   url: https://x.com/revenuebase
+- type: AgentCard
+  url: a2a/revenuebase-a2a.yml
+- type: ToolCrosswalk
+  url: mcp/revenuebase-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/revenuebase-provider-skill.md
+- type: Plans
+  url: plans/revenuebase-plans-pricing.yml
+- type: ReleaseNotes
+  url: https://docs.revenuebase.ai/docs/release-notes
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 17
+  artifacts_added: 9
+  artifacts_updated: 11
   pass: local-v1
