@@ -1,0 +1,91 @@
+generated: '2026-08-13'
+method: derived
+source:
+- mcp/revenuebase-mcp.yml
+- openapi/_original/revenuebase-openapi.json
+- openapi/_original/revenuebase-contact-refresh-openapi.json
+note: >-
+  RevenueBase's MCP surface and its REST surface do not overlap at all. The live MCP
+  server at https://docs.revenuebase.ai/mcp is documentation-scoped: its three tools
+  search and read the docs corpus and file docs feedback. None of them is backed by a
+  REST operation, and none of the thirteen REST operations has an MCP tool. This is a
+  complete surface divergence and it is the headline finding of this crosswalk: an
+  agent connected to the RevenueBase MCP server can READ ABOUT the API but cannot
+  CALL it. Every data operation requires a direct REST call with an x-key header.
+surfaces:
+  openapi:
+  - file: openapi/_original/revenuebase-openapi.json
+    title: Revenuebase API v2
+    base: https://api.revenuebase.ai
+    operations: 10
+    gated: false
+    note: Public OpenAPI 3.1.0 served at https://api.revenuebase.ai/v2/openapi.json (HTTP 200).
+  - file: openapi/_original/revenuebase-contact-refresh-openapi.json
+    title: contact-refresh
+    base: https://api.revenuebase.ai
+    operations: 3
+    gated: false
+    note: >-
+      Spec carries no servers[] block. Host established by probe, not by guess:
+      POST https://api.revenuebase.ai/v2/contact/refresh/email returned 401
+      application/problem+json ("Missing or empty X-Key header"), confirming the
+      operation is live on the documented v2 host.
+  graphql: null
+  mcp:
+    url: https://docs.revenuebase.ai/mcp
+    gated: false
+    tools: 3
+    note: tools/list answered 200 anonymously — the schemas below are the real ones, not inferred.
+crosswalk: []
+mcp_only:
+- tool: search_revenue_base
+  reason: >-
+    Semantic search over the RevenueBase documentation corpus. No REST equivalent —
+    RevenueBase publishes no search API.
+- tool: query_docs_filesystem_revenue_base
+  reason: >-
+    Read-only shell over a virtualized documentation filesystem (rg/cat/tree over the
+    .mdx pages and the OpenAPI specs). No REST equivalent. This tool is also how the
+    contact-refresh OpenAPI was discovered — it is the only public surface that
+    exposes /openapi/spec/contact-refresh-openapi.json.
+- tool: submit_feedback
+  reason: >-
+    Files a documentation-quality report with the docs team. No REST equivalent; it is
+    the only non-read-only tool on the server.
+rest_only:
+- capability: Email verification
+  operations:
+  - verify_email_v2_email_verify_post
+  - verify_email_batch_v2_email_verify_batch_post
+  note: Single synchronous verification (5 req/s) and asynchronous batch file upload.
+- capability: Batch job lifecycle
+  operations:
+  - list_jobs_v2_jobs_get
+  - get_job_v2_jobs__process_id__get
+  - cancel_job_v2_jobs__process_id__cancel_post
+  - download_job_v2_jobs__process_id__download_get
+- capability: Organization resolution and discovery
+  operations:
+  - resolve_company_v2_organization_resolve_post
+  - discover_company_v2_organization_discover_post
+- capability: Account and credentials
+  operations:
+  - get_usage_v2_account_balance_get
+  - rotate_api_key_v2_account_api_keys_rotate_post
+- capability: Contact refresh (reconnect)
+  operations:
+  - refresh_email_v2_contact_refresh_email_post
+  note: >-
+    Marketed on the pricing page as "Reconnect to find contacts who changed companies
+    (coming soon)". Live and returning problem+json today.
+- capability: Service health
+  operations:
+  - health_health_get
+  - health_ready_health_ready_get
+coverage:
+  tools_named: 3
+  tools_bound_to_rest: 0
+  mcp_only: 3
+  rest_operations_total: 13
+  rest_operations_with_a_tool: 0
+  overlap: none

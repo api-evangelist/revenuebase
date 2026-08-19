@@ -1,8 +1,9 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
 source:
 - https://docs.revenuebase.ai/llms.txt
-- https://docs.revenuebase.ai/api-reference/overview
+- https://docs.revenuebase.ai/api-reference/v2/overview
+- https://docs.revenuebase.ai/docs/release-notes
 - https://status.revenuebase.ai/
 versioning:
   style: uri-path
@@ -21,6 +22,24 @@ deprecation:
 status_page:
   url: https://status.revenuebase.ai/
   reachable: true
+  rechecked: '2026-08-13'
+  http_status: 200
+release_notes:
+  url: https://docs.revenuebase.ai/docs/release-notes
+  cadence: monthly
+  scope: >-
+    Data releases (dataset scale, de-duplication, fill-rate and quality statistics),
+    not API surface changes. Structured in changelog/revenuebase-changelog.yml.
+  latest: August 2026
+new_surfaces:
+- name: contact-refresh
+  status: live-undocumented
+  detail: >-
+    POST /v2/contact/refresh/email is live on api.revenuebase.ai (401 problem+json
+    without a key) and its OpenAPI is published through the docs host, but it has no
+    API-reference page and the pricing page still lists "Reconnect to find contacts
+    who changed companies" as coming soon. Spec info.version is "dev".
+  spec: openapi/_original/revenuebase-contact-refresh-openapi.json
 data_freshness:
   detail: >-
     Not an API deprecation signal, but a documented data lifecycle: profiles are

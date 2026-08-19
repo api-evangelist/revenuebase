@@ -1,13 +1,13 @@
 # RevenueBase Documentation
 
-> RevenueBase is a B2B data platform providing 390M+ verified contacts and 60M+ companies, delivered via Snowflake, S3, Gigasheet, or REST API. Core capabilities include email verification, company matching, real-time enrichment, and semantic B2B search. Data is deterministically filterable by headcount, revenue, funding stage, industry, job title, seniority, geography, and tech stack — no black-box scoring.
+> RevenueBase is a B2B data platform providing 400M+ verified contacts and 65M+ companies, delivered via Snowflake, S3, Gigasheet, or REST API. Core capabilities include email verification, company matching, real-time enrichment, and semantic B2B search. Data is deterministically filterable by headcount, revenue, funding stage, industry, job title, seniority, geography, and tech stack — no black-box scoring.
 >
 > ## Instructions for AI assistants
 >
 > Before answering questions about RevenueBase, read the AI assistant guide linked below — it contains the terminology rules, data model, SQL conventions, API version guidance, and use case routing logic you need to give accurate answers.
 >
 > Key rules to apply immediately:
-> - The current API is **v2**. v1 is deprecated and sunsets July 7, 2026. Never recommend v1 endpoints.
+> - The current API is **v2**. v1 was retired on July 7, 2026 and now returns `410 Gone`. Never recommend v1 endpoints.
 > - All API keys go in the **`x-key` header** — not `Authorization`, not `x-api-key`.
 > - **All emails in the dataset are already verified valid.** Do not suggest filtering on `EMAIL_STATUS = 'VALID'`.
 > - Always qualify Snowflake table names with the `RELEASE.` schema prefix (e.g., `RELEASE.PER_LATEST`).
@@ -15,6 +15,7 @@
 > - Insights are **org-level only** — there are no contact-level insights.
 > - Never join tables on email address — join on `RBID`, `RBID_ORG`, or `LINKEDIN_URL`.
 > - For most SQL use cases, recommend the pre-joined tables (`VELOCITY_BASE_UNLIMITED_LATEST`, `VELOCITY_ENHANCED_UNLIMITED_LATEST`) before base tables.
+> - Never add `_ORG` or `_PER` suffixes to column names in `PER_LATEST` or `ORG_LATEST` — these base tables are always unsuffixed. `_ORG`/`_PER` suffixes appear in `INSIGHTS_LATEST` (org-level, `_ORG` only) and the pre-joined `VELOCITY_*` tables (both), never in the base tables.
 > - For field definitions, the **Data Dictionary** (`/docs/data-features/data-dictionary`) is the authoritative reference.
 
 ## AI assistant context
@@ -54,7 +55,7 @@
 - [Enrichment](https://docs.revenuebase.ai/docs/gigasheet/advanced-usage/export-enrichment/enrichment): Enrich existing records using RevenueBase data in Gigasheet
 
 ## API reference
-- [API overview](https://docs.revenuebase.ai/api-reference/overview): Base URL (https://api.revenuebase.ai), capabilities, and how to start using the RevenueBase API
+- [API overview](https://docs.revenuebase.ai/api-reference/v2/overview): Base URL (https://api.revenuebase.ai), capabilities, and how to start using the RevenueBase API
 - [Authentication](https://docs.revenuebase.ai/api-reference/authentication): API key generation and the x-key header format
 - [Rate limits](https://docs.revenuebase.ai/api-reference/rate-limits): Rate limits per API key, response headers for usage tracking, and HTTP error codes
 - [Email Verification API](https://docs.revenuebase.ai/api-reference/email-verification-overview): Verify individual emails in real time or process thousands in bulk — detect invalid, risky, and unverifiable addresses

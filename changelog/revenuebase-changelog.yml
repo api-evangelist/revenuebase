@@ -1,32 +1,106 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
 source:
+- https://docs.revenuebase.ai/docs/release-notes
 - https://pypi.org/pypi/revenuebase-sdk/json
 - https://docs.revenuebase.ai/llms.txt
+changelog_url: https://docs.revenuebase.ai/docs/release-notes
 note: >-
-  RevenueBase does not publish a dated API changelog page in its docs. The most
-  authoritative dated release history is the official Python SDK on PyPI, tracked
-  below, plus the platform-level v1 -> v2 API deprecation milestone. The SDK also
-  maintains a CHANGELOG.md in its GitHub repository.
+  RevenueBase publishes a dated Release Notes page in its documentation. It is a
+  DATA release log, not an API change log: each monthly entry leads with three
+  quality statistics (email re-verification %, contact freshness %, company
+  accuracy %) and then lists dataset scale, de-duplication work, bug fixes and
+  fill-rate movements. API surface changes are not tracked there — the only
+  platform-level API milestone RevenueBase documents is the v1 sunset. The
+  official Python SDK carries its own semver release history on PyPI and a
+  CHANGELOG.md in its repository; both are tracked below.
+scheme: monthly-dated
+cadence: monthly
+current_release: August 2026
+entries:
+- version: August 2026
+  date: '2026-08-01'
+  date_precision: month
+  breaking: false
+  stats:
+    email_reverification: 97.7%
+    contact_freshness: 89%
+    company_accuracy: 60%
+  highlights:
+  - Dataset reached 399M total contacts, 66M verified emails, 53M cellphone numbers.
+  - Resolved approximately 3M duplicate profiles created by multiple LinkedIn URLs for the same person.
+  - Corrected a country-default bug on 33,427 organization records; HQ country fill-rate rose to 88% from 87%.
+- version: July 2026
+  date: '2026-07-01'
+  date_precision: month
+  breaking: false
+  stats:
+    email_reverification: 98.4%
+    contact_freshness: 77.5%
+    company_accuracy: 89%
+  highlights:
+  - Dataset at 403M total contacts; verified emails 66.5M (+1.2M); phone numbers 53.2M (-0.2M).
+  - Fixed job_order_in_profile so job history reflects true LinkedIn display order.
+  - Roughly 3M companies received website and domain updates.
+- version: June 2026
+  date: '2026-06-01'
+  date_precision: month
+  breaking: false
+  stats:
+    email_reverification: 97%
+    contact_freshness: 84%
+    company_accuracy: 89%
+  highlights:
+  - Dataset at 403M total contacts (+15M); verified emails 65.3M; phone numbers 53.4M.
+  - Persona 71%->84%, job function 66%->79%, job level 73%->87% fill-rate recovery.
+  - Fill-rate gains on ERP tech org (+11pp), education (+5pp), LinkedIn connections count (+4pp).
+- version: May 2026
+  date: '2026-05-01'
+  date_precision: month
+  breaking: false
+  stats:
+    email_reverification: 98%
+    contact_freshness: 83%
+    company_accuracy: 89%
+  highlights:
+  - Dataset at 388M total contacts, ~65M verified emails, 52.8M cellphone numbers.
+  - New linkedin_num_id field (permanent numeric LinkedIn Member ID) at ~95% fill-rate; preferred join key for dedupe and cross-system matching.
+  - Resolved ~5M hidden duplicate profiles caused by URL encoding variations.
+- version: April 2026
+  date: '2026-04-01'
+  date_precision: month
+  breaking: false
+  stats:
+    email_reverification: 97%
+    contact_freshness: 84%
+    company_accuracy: 89%
+  highlights:
+  - Contact freshness below the usual level due to newly imported contacts from a new vendor last updated end of 2025.
 api_milestones:
 - date: '2026-07-07'
   type: breaking
   highlight: API v1 sunset. v2 is the sole supported API.
-scheme: semver
-component: revenuebase-sdk (PyPI)
-current_version: 0.3.0
-changelog_doc: https://github.com/revenuebase/revenuebase-sdk/blob/main/CHANGELOG.md
-entries:
-- version: 0.3.0
-  date: '2026-07-16'
-  breaking: false
-- version: 0.2.1
-  date: '2026-05-11'
-  breaking: false
-- version: 0.2.0
-  date: '2026-05-11'
-  breaking: false
-- version: 0.1.0
-  date: '2026-04-08'
-  breaking: false
-  highlight: Initial public release of the Python SDK.
+  source: https://docs.revenuebase.ai/llms.txt
+sdk_releases:
+  component: revenuebase-sdk (PyPI)
+  scheme: semver
+  current_version: 0.3.0
+  changelog_doc: https://github.com/revenuebase/revenuebase-sdk/blob/main/CHANGELOG.md
+  entries:
+  - version: 0.3.0
+    date: '2026-07-16'
+    breaking: false
+  - version: 0.2.1
+    date: '2026-05-11'
+    breaking: false
+  - version: 0.2.0
+    date: '2026-05-11'
+    breaking: false
+  - version: 0.1.0
+    date: '2026-04-08'
+    breaking: false
+    highlight: Initial public release of the Python SDK.
+x-evidence:
+- url: https://docs.revenuebase.ai/docs/release-notes
+  http_status: 200
+  fetched: '2026-08-13'

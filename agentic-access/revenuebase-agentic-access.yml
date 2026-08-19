@@ -1,0 +1,153 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/revenuebase-account-api-openapi.yml, openapi/revenuebase-email-api-openapi.yml,
+  openapi/revenuebase-jobs-api-openapi.yml, openapi/revenuebase-organization-api-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 10
+  by_action_class:
+    connected: 4
+    acting: 6
+  by_consequence:
+    read: 4
+    write: 6
+  human_in_the_loop_required: 0
+operations:
+- path: /v2/account/balance
+  method: get
+  operationId: get_usage_v2_account_balance_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/account/api-keys/rotate
+  method: post
+  operationId: rotate_api_key_v2_account_api_keys_rotate_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/email/verify
+  method: post
+  operationId: verify_email_v2_email_verify_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/email/verify/batch
+  method: post
+  operationId: verify_email_batch_v2_email_verify_batch_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/jobs
+  method: get
+  operationId: list_jobs_v2_jobs_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/jobs/{process_id}
+  method: get
+  operationId: get_job_v2_jobs__process_id__get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/jobs/{process_id}/cancel
+  method: post
+  operationId: cancel_job_v2_jobs__process_id__cancel_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/jobs/{process_id}/download
+  method: get
+  operationId: download_job_v2_jobs__process_id__download_get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/organization/resolve
+  method: post
+  operationId: resolve_company_v2_organization_resolve_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v2/organization/discover
+  method: post
+  operationId: discover_company_v2_organization_discover_post
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required

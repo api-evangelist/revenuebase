@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Revenuebase API v2 Account API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get your remaining credit balance",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.revenuebase.ai/v2/account/balance",
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the number of validation credits remaining on your account. Each `Valid` or `Invalid` result deducts 1 credit."
+        },
+        {
+          "info": {
+            "name": "Rotate your API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/account/api-keys/rotate",
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Generates a new API key and immediately invalidates the previous one. Update all integrations with the new key before making further requests."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,63 @@
+generated: '2026-08-13'
+method: searched
+source:
+- https://docs.revenuebase.ai/api-reference/v2/rate-limits
+- https://docs.revenuebase.ai/api-reference/email/verify-a-single-email-address
+docs: https://docs.revenuebase.ai/api-reference/v2/rate-limits
+api: Revenuebase API v2
+scope: per-api-key
+note: >-
+  RevenueBase documents the runtime rate-limit SIGNAL fully (three response headers
+  plus the exhaustion status code and a backoff recipe) but publishes only one
+  numeric limit — 5 requests per second on single email verification. The
+  rate-limits page states "Limits are applied per API key" without naming the
+  window or ceiling for the other endpoints, so an integrator must read
+  X-RateLimit-Limit at runtime to learn their own quota. Separately from rate
+  limiting, every endpoint is metered in credits and returns 402 when the balance
+  is insufficient (see plans/ and conventions/).
+limit_count: 1
+limits:
+- scope: per-endpoint
+  endpoint: POST /v2/email/verify
+  operation_id: verify_email_v2_email_verify_post
+  limit: 5
+  unit: requests
+  window: 1s
+  source: https://docs.revenuebase.ai/api-reference/email/verify-a-single-email-address
+  quote: Rate limited to 5 request per second.
+- scope: per-api-key
+  endpoint: '*'
+  limit: null
+  window: null
+  note: >-
+    Documented as "Limits are applied per API key" with no published number or
+    window. The effective ceiling is only discoverable from the X-RateLimit-Limit
+    response header.
+headers:
+- name: X-RateLimit-Limit
+  description: Max requests allowed in the current window
+- name: X-RateLimit-Remaining
+  description: Requests remaining in the current window
+- name: X-RateLimit-Reset
+  description: Unix timestamp when the window resets
+  guidance: Read X-RateLimit-Reset before retrying to avoid sending requests that will immediately fail.
+retry_after_header: false
+exhaustion:
+  status: 429
+  reason: Too Many Requests
+  body: JSON with a string detail field.
+backoff:
+  documented: true
+  strategy: exponential
+  detail: >-
+    Docs publish a Python example using the official SDK's RateLimitError with
+    2**attempt backoff (1s, 2s, 4s, 8s, 16s) over 5 attempts.
+  sdk_exception: revenuebase_sdk.RateLimitError
+related:
+- conventions/revenuebase-conventions.yml
+- errors/revenuebase-problem-types.yml
+- plans/revenuebase-plans-pricing.yml
+x-evidence:
+- url: https://docs.revenuebase.ai/api-reference/v2/rate-limits
+  http_status: 200
+  fetched: '2026-08-13'

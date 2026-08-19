@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Revenuebase API v2 Account Email API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Verify a single email address",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/email/verify",
+            "params": [
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include detailed metadata in response"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Verifies one email address synchronously. Returns `Valid`, `Invalid`, or `Unknown`. Set `metadata=true` to include MX record presence, email provider, security gateway, and failure reason. Deducts 1 credit on `Valid` or `Invalid` results. Rate limited to 5 request per second.\n\n**Errors**\n- `402` — Insufficient credits. Recharge your account before retrying."
+        },
+        {
+          "info": {
+            "name": "Upload a batch file for email verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/email/verify/batch",
+            "params": [
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Include metadata fields in output file"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Accepts a `.csv` or `.json` file and queues it for asynchronous processing. Returns a `process_id` — use it to poll status or download results when complete. Set `metadata=true` to include MX record, email provider, and failure reason fields in the output file.\n\n**Errors**\n- `400 invalid_extension` — File must be `.csv` or `.json`.\n- `400 upload_error` — File upload failed. Contact support."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,87 @@
+generated: '2026-08-13'
+method: probed
+source: https://docs.revenuebase.ai/.well-known/agent-card.json
+description: >-
+  A2A Agent Card observed at the canonical /.well-known/agent-card.json path on
+  docs.revenuebase.ai. Grade is measured against the A2A 1.0.0 AgentCard object:
+  'conformant' passes every structural hard check, 'near-conformant' is correctly
+  shaped but omits optional fields, 'flavored' fails a hard check. Provider-published
+  by construction — served from RevenueBase's own documentation host; nothing here
+  is derived or generated.
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: docs.revenuebase.ai
+  note: >-
+    Served from RevenueBase's own Mintlify-hosted documentation host. Ownership is
+    unambiguous: the card names itself "RevenueBase", provider.organization is
+    "RevenueBase", and provider.url / documentationUrl / url are all
+    https://docs.revenuebase.ai/. The other RevenueBase hosts miss — revenuebase.ai
+    returns 404 ("Invalid .well-known request") and api.revenuebase.ai returns 404
+    ({"detail":"Not Found"}) for both /.well-known/agent-card.json and
+    /.well-known/agent.json.
+conformance:
+  spec: A2A 1.0.0
+  grade: conformant
+  protocol_version: '0.3'
+  preferred_transport: HTTP+JSON
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    preferred_transport: true
+    default_input_modes: true
+    default_output_modes: true
+  deviations:
+  - id: supportedInterfaces-instead-of-additionalInterfaces
+    detail: >-
+      The card declares its transport list under "supportedInterfaces"; A2A 1.0.0
+      names this field "additionalInterfaces". Passes every hard check, but an A2A
+      1.0.0 client reading additionalInterfaces will not see the declared interface.
+  - id: skill-tags-empty
+    detail: The single declared skill carries an empty tags array.
+  - id: url-points-at-docs-site-not-an-a2a-endpoint
+    detail: >-
+      card.url and every supportedInterfaces[].url resolve to the documentation site
+      root (https://docs.revenuebase.ai/), not to a JSON-RPC A2A endpoint. The
+      callable agent surface RevenueBase actually operates is the MCP server at
+      https://docs.revenuebase.ai/mcp (see mcp/revenuebase-mcp.yml).
+card:
+  name: RevenueBase
+  url: https://docs.revenuebase.ai/
+  version: 1.0.0
+  protocol_version: '0.3'
+  preferred_transport: HTTP+JSON
+  provider_organization: RevenueBase
+  documentation_url: https://docs.revenuebase.ai/
+  capabilities:
+    streaming: false
+    push_notifications: false
+  default_input_modes:
+  - text/plain
+  default_output_modes:
+  - text/plain
+  skills: 1
+  skill_ids:
+  - revenuebase
+  skill_urls:
+  - https://docs.revenuebase.ai/.well-known/agent-skills/revenuebase/skill.md
+  file: revenuebase-agent-card.json
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://docs.revenuebase.ai/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  note: >-
+    Verbatim body saved alongside this manifest as revenuebase-agent-card.json.
+    No field inferred.
+  misses:
+  - url: https://revenuebase.ai/.well-known/agent-card.json
+    http_status: 404
+  - url: https://revenuebase.ai/.well-known/agent.json
+    http_status: 404
+  - url: https://api.revenuebase.ai/.well-known/agent-card.json
+    http_status: 404
+  - url: https://api.revenuebase.ai/.well-known/agent.json
+    http_status: 404

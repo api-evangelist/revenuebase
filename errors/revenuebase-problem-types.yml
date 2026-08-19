@@ -1,16 +1,37 @@
-generated: '2026-07-20'
-method: derived
+generated: '2026-08-13'
+method: probed
 source:
-- openapi/revenuebase-openapi.json
-- https://docs.revenuebase.ai/api-reference/rate-limits
-format: none
+- openapi/_original/revenuebase-openapi.json
+- openapi/_original/revenuebase-contact-refresh-openapi.json
+- https://docs.revenuebase.ai/api-reference/v2/rate-limits
+- live 401 responses from api.revenuebase.ai
+docs: https://docs.revenuebase.ai/api-reference/v2/rate-limits
+format: mixed
 envelope: >-
-  RevenueBase does not use RFC 9457 application/problem+json. Validation errors
-  (422) return the FastAPI-style HTTPValidationError envelope: {"detail": [{"loc":
-  [...], "msg": "...", "type": "..."}]}. Business errors (400/402) return a JSON
-  body with a string detail/message and, for some cases, a documented error code
-  string (e.g. invalid_extension, upload_error, already_cancelled, not_cancellable,
-  not_completed, process_error).
+  RevenueBase runs TWO error envelopes, and which one you get depends on which
+  service you call. The established v2 service (email, organization, jobs, account)
+  is not RFC 9457: validation errors (422) return the FastAPI HTTPValidationError
+  shape {"detail": [{"loc": [...], "msg": "...", "type": "..."}]}, and business
+  errors (400/401/402) return application/json with a string detail/message plus,
+  for some cases, a documented error-code string (invalid_extension, upload_error,
+  already_cancelled, not_cancellable, not_completed, process_error). The newer
+  contact-refresh service IS RFC 9457: it answers application/problem+json with
+  type/title/status/detail and adds a request_id for tracing — observed live, see
+  x-evidence.
+envelopes:
+- id: fastapi-detail
+  media_type: application/json
+  services:
+  - Revenuebase API v2 (email, organization, jobs, account)
+  shape: '{"detail": "..."} or {"detail": [{"loc": [...], "msg": "...", "type": "..."}]}'
+  rfc9457: false
+- id: rfc9457-problem
+  media_type: application/problem+json
+  services:
+  - contact-refresh (POST /v2/contact/refresh/email)
+  shape: '{"type": "about:blank", "title": "...", "status": 401, "detail": "...", "request_id": "..."}'
+  rfc9457: true
+  trace_field: request_id
 status_codes:
 - code: 400
   title: Bad Request
@@ -47,3 +68,23 @@ status_codes:
 - code: 500
   title: Internal Server Error
   meaning: Unexpected error on the RevenueBase side.
+  remediation: Retry with backoff; contact support@revenuebase.ai if it persists.
+x-evidence:
+- url: https://api.revenuebase.ai/v2/contact/refresh/email
+  method: POST
+  http_status: 401
+  content_type: application/problem+json
+  body: '{"type":"about:blank","title":"Unauthorized","status":401,"detail":"Missing or empty X-Key header.","request_id":"<uuid>"}'
+  fetched: '2026-08-13'
+- url: https://api.revenuebase.ai/v2/email/verify
+  method: POST
+  http_status: 401
+  content_type: application/json
+  body: '{"detail":"Not Authenticated"}'
+  fetched: '2026-08-13'
+- url: https://api.revenuebase.ai/v2/account/balance
+  method: GET
+  http_status: 401
+  content_type: application/json
+  body: '{"detail":"Not authenticated"}'
+  fetched: '2026-08-13'

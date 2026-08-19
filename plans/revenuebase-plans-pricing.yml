@@ -1,0 +1,112 @@
+generated: '2026-08-13'
+method: searched
+source: https://revenuebase.ai/pricing
+currency: USD
+model: >-
+  Two-sided commercial model. Data feeds are a flat-rate annual subscription
+  (unmetered, unlimited seats, unlimited downloads, no per-record fees). APIs are
+  pay-as-you-go credits — one credit balance spendable across every tool, charged
+  only when a result is delivered, with unused credits rolling over.
+plan_count: 5
+plans:
+- name: RevenueBase Community Edition
+  kind: data-feed
+  price: 0
+  currency: USD
+  billing_period: free
+  included:
+  - 390M+ global contacts
+  - 60M+ global companies
+  limits:
+    fields: Full dataset, limited fields
+    delivery: S3 or Snowflake
+    update_frequency: Every 90 days
+  cta: Get free access
+  note: Free tier intended for building against real data before committing.
+- name: RevenueBase Basic
+  kind: data-feed
+  price: 499
+  currency: USD
+  billing_period: month
+  annual_price: 5988
+  annual_note: $5,988.00 paid annually
+  included:
+  - 390M+ global contacts
+  - Business emails (verified every 60 days)
+  - Mobile phone numbers
+  - Social profile URLs, job skills, education
+  - 60M+ global companies
+  - Company social profiles and specialties
+  - Gigasheet included for no-code list building
+  limits:
+    delivery: Gigasheet or one cloud destination (S3, Snowflake, GCS, Azure)
+    update_frequency: Monthly
+  overage:
+    additional_destinations: $1,500/year each
+  note: Described on the pricing page as the plan most customers start on. 30-day refresh cycle.
+- name: RevenueBase Enhanced
+  kind: data-feed
+  price: 833
+  currency: USD
+  billing_period: month
+  annual_price: 9996
+  annual_note: $9,996.00 paid annually
+  included:
+  - Everything in the preceding data-feed tier
+  - 50+ company insight fields
+  - Technographics across 15+ categories
+  - Website traffic and ad spend
+  - Team sizes and open roles
+  - Mobile app store data
+  limits:
+    delivery: Gigasheet or one cloud destination (Amazon S3, Snowflake)
+    update_frequency: Monthly
+  overage:
+    additional_destinations: $1,500/year each
+- name: RevenueBase API
+  kind: api-credits
+  price: 0.0027
+  currency: USD
+  billing_period: per-credit
+  unit: credit
+  included:
+  - Email verification with 97%+ accuracy
+  - Semantic company discovery in plain language
+  - Company name resolution to canonical IDs
+  - Source traceability on every result
+  - Full API access and documentation
+  coming_soon:
+  - Enrichment with firmographics and hiring signals
+  - Reconnect to find contacts who changed companies
+  limits:
+    rollover: Unused credits roll over
+    charging: Charged only when a result is delivered
+    cross_tool: One balance spendable across every tool; credit cost per API may differ
+  published_bundles:
+  - credits: 10000
+  - credits: 50000
+    price: 135
+    note: Pricing page worked example — 50K verifications/month costs $135/mo in credits.
+  - credits: 100000
+  - credits: 250000
+  - credits: 500000
+  - credits: 1000000
+    label: 1M+
+  metering_ref: conventions/revenuebase-conventions.yml
+- name: Licensing and partnerships
+  kind: custom
+  price: null
+  billing_period: custom
+  best_for:
+  - Product companies embedding data in their product
+  - Data companies licensing for resale
+  - Teams blending RevenueBase data into their own stack
+  cta: Contact sales
+  note: Custom pricing for GTM products embedding the data, resellers, and data companies licensing at scale.
+worked_examples:
+- persona: Demand generation agency
+  detail: An agency running 50K verifications per month — $499/mo on data plus $135/mo on credits.
+x-evidence:
+  fetched: '2026-08-13'
+  url: https://revenuebase.ai/pricing
+  http_status: 200

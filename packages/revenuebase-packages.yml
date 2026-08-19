@@ -1,26 +1,90 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
 source:
 - https://pypi.org/pypi/revenuebase-sdk/json
+- https://registry.npmjs.org/-/v1/search?text=revenuebase
+- https://docs.revenuebase.ai/api-reference/developer-tools/developer-sdk
+- https://docs.revenuebase.ai/api-reference/developer-tools/low-code-tools
 - https://github.com/revenuebase
+note: >-
+  RevenueBase ships one first-party server SDK (Python) and one first-party n8n
+  community node. Its own docs say so plainly: the Developer SDK page lists Python
+  only and offers a "Request a language" card pointing at developers@revenuebase.ai.
+  Currency check as of 2026-08-13: the Python SDK's latest release (0.3.0,
+  2026-07-16) postdates the v1 API sunset (2026-07-07) and is roughly a month old,
+  so the SDK is tracking the API rather than lagging it. The npm n8n node was last
+  published 2026-05-02 under the scoped name @revenuebase/n8n-nodes-revenuebase —
+  note the unscoped name n8n-nodes-revenuebase used by the GitHub repository does
+  NOT exist on npm (404), so anyone following the repo name alone will not find it.
+  No JavaScript/TypeScript, Java, .NET, Go, Ruby, PHP or Rust client library is
+  published for the REST API itself.
 packages:
 - name: revenuebase-sdk
   ecosystem: pypi
-  registry: https://pypi.org/project/revenuebase-sdk/
+  registry: pypi
+  registry_url: https://pypi.org/project/revenuebase-sdk/
+  metadata_endpoint: https://pypi.org/pypi/revenuebase-sdk/json
   language: python
   official: true
   version: 0.3.0
+  published: '2026-07-16'
   license: MIT
   requires_python: '>=3.8'
-  summary: Python SDK for the Revenuebase Email Verification and Company Resolver API.
+  install: pip install revenuebase-sdk
   import_name: revenuebase_sdk
+  summary: Python SDK for the Revenuebase Email Verification and Company Resolver API.
   repository: https://github.com/revenuebase/revenuebase-sdk
-  documentation: https://docs.revenuebase.ai
+  documentation: https://docs.revenuebase.ai/api-reference/developer-tools/developer-sdk
   changelog: https://github.com/revenuebase/revenuebase-sdk/blob/main/CHANGELOG.md
-- name: n8n-nodes-revenuebase
-  ecosystem: github
-  registry: https://github.com/revenuebase/n8n-nodes-revenuebase
+  release_history:
+  - version: 0.1.0
+    published: '2026-04-08'
+  - version: 0.2.0
+    published: '2026-05-11'
+  - version: 0.2.1
+    published: '2026-05-11'
+  - version: 0.3.0
+    published: '2026-07-16'
+- name: '@revenuebase/n8n-nodes-revenuebase'
+  ecosystem: npm
+  registry: npm
+  registry_url: https://www.npmjs.com/package/@revenuebase/n8n-nodes-revenuebase
+  metadata_endpoint: https://registry.npmjs.org/@revenuebase/n8n-nodes-revenuebase
   language: typescript
   official: true
-  summary: n8n community node for RevenueBase (workflow automation integration).
-  note: Published in the RevenueBase GitHub org; not found on the npm registry as of probe.
+  version: 1.0.1
+  published: '2026-05-02'
+  install: npm install @revenuebase/n8n-nodes-revenuebase
+  summary: >-
+    Native RevenueBase node for n8n — verify emails, resolve companies and enrich
+    contact data inside n8n workflows.
+  repository: https://github.com/revenuebase/n8n-nodes-revenuebase
+  listing: https://n8n.io/integrations/revenuebase/
+  note: >-
+    The unscoped name n8n-nodes-revenuebase (which matches the GitHub repository
+    name) returns 404 on the npm registry; only the scoped @revenuebase/ name is
+    published.
+not_published:
+- language: javascript
+  note: No first-party JS/TS client library for the REST API. Confirmed against the npm registry search for "revenuebase" (only the n8n node is returned).
+- language: java
+- language: dotnet
+- language: go
+- language: ruby
+- language: php
+- language: rust
+low_code:
+  note: >-
+    Beyond the n8n node, RevenueBase documents no other packaged connector. Its
+    low-code page states that any platform supporting HTTP requests (Zapier, Make,
+    ActivePieces are named as examples) can call the API with the x-key header —
+    that is a generic HTTP recipe, not a published integration, so no package
+    entry is recorded for those platforms.
+official_sdk_count: 2
+x-evidence:
+- url: https://pypi.org/pypi/revenuebase-sdk/json
+  http_status: 200
+  fetched: '2026-08-13'
+- url: https://registry.npmjs.org/n8n-nodes-revenuebase
+  http_status: 404
+  fetched: '2026-08-13'

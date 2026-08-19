@@ -1,12 +1,68 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: probed
-source: live HTTP probes of RevenueBase hosts
+source: live HTTP probes of every RevenueBase host
 note: >-
-  No .well-known documents were served by any RevenueBase host at probe time.
-  All standard paths returned 404. Recorded for provenance; absence is valid data.
+  RevenueBase serves a real .well-known discovery surface — but only on its
+  documentation host. docs.revenuebase.ai answers 200 with genuine documents at
+  /.well-known/agent-card.json (A2A), /.well-known/mcp.json (MCP endpoint
+  discovery) and /.well-known/agent-skills/ (Agent Skills discovery index plus the
+  skill itself). The marketing host (revenuebase.ai) and the API host
+  (api.revenuebase.ai) serve nothing: every path 404s, and neither is a soft-200
+  SPA catch-all — revenuebase.ai returns an explicit "Invalid .well-known request"
+  404 page and api.revenuebase.ai returns {"detail":"Not Found"}. No security.txt
+  is served anywhere. Absence is recorded here as valid data.
+hosts_probed:
+- revenuebase.ai
+- api.revenuebase.ai
+- docs.revenuebase.ai
+documents:
+- host: docs.revenuebase.ai
+  path: /.well-known/agent-card.json
+  status: 200
+  content_type: application/json
+  file: ../a2a/revenuebase-agent-card.json
+  kind: A2A Agent Card
+  note: Saved verbatim under a2a/ and graded in a2a/revenuebase-a2a.yml.
+- host: docs.revenuebase.ai
+  path: /.well-known/mcp.json
+  status: 200
+  content_type: application/json
+  file: revenuebase-mcp.json
+  kind: MCP endpoint discovery
+  note: Names the http transport and the live server; see mcp/revenuebase-mcp.yml.
+- host: docs.revenuebase.ai
+  path: /.well-known/agent-skills/index.json
+  status: 200
+  content_type: application/json
+  file: revenuebase-agent-skills-index.json
+  kind: Agent Skills discovery index
+  schema: https://schemas.agentskills.io/discovery/0.2.0/schema.json
+- host: docs.revenuebase.ai
+  path: /.well-known/agent-skills/revenuebase/skill.md
+  status: 200
+  content_type: text/markdown
+  file: ../skills/revenuebase-provider-skill.md
+  kind: Agent Skill
+  note: Provider-authored skill, saved verbatim under skills/.
 probes:
 - host: revenuebase.ai
   path: /.well-known/security.txt
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/api-catalog
   status: 404
   file: null
 - host: revenuebase.ai
@@ -14,7 +70,15 @@ probes:
   status: 404
   file: null
 - host: revenuebase.ai
-  path: /.well-known/api-catalog
+  path: /.well-known/mcp.json
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+- host: revenuebase.ai
+  path: /.well-known/agent.json
   status: 404
   file: null
 - host: api.revenuebase.ai
@@ -29,7 +93,58 @@ probes:
   path: /.well-known/oauth-authorization-server
   status: 404
   file: null
+- host: api.revenuebase.ai
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/mcp.json
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/agent-card.json
+  status: 404
+  file: null
+- host: api.revenuebase.ai
+  path: /.well-known/agent.json
+  status: 404
+  file: null
 - host: docs.revenuebase.ai
   path: /.well-known/security.txt
   status: 404
   file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/oauth-protected-resource
+  status: 404
+  file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/api-catalog
+  status: 404
+  file: null
+- host: docs.revenuebase.ai
+  path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+security_txt:
+  served: false
+  note: No RFC 9116 security.txt on any host. No SecurityTxt pointer emitted.
+x-evidence:
+  fetched: '2026-08-13'
+  hits: 4
+  misses: 24

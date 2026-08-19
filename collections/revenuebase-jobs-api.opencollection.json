@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Revenuebase API v2 Account Jobs API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List active batch jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.revenuebase.ai/v2/jobs",
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns all batch jobs in `QUEUED` or `PROCESSING` status for your account. Use the `process_id` from each result to poll individual job status or cancel."
+        },
+        {
+          "info": {
+            "name": "Get batch job status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.revenuebase.ai/v2/jobs/:process_id",
+            "params": [
+              {
+                "name": "process_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the current processing status for a batch job. Only the user who submitted the job can query it.\n\nPossible statuses: `QUEUED`, `PROCESSING`, `COMPLETED`, `ERROR`, `CANCELLING`, `CANCELLED`.\n\n**Errors**\n- `400` — Invalid `process_id` or job does not belong to your account."
+        },
+        {
+          "info": {
+            "name": "Cancel a batch job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/jobs/:process_id/cancel",
+            "params": [
+              {
+                "name": "process_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Marks a batch job for cancellation. Jobs in `QUEUED` state will not be processed. Jobs in `PROCESSING` state may not stop immediately.\n\n**Errors**\n- `400 already_cancelled` — Job is already `CANCELLED` or `CANCELLING`.\n- `400 not_cancellable` — Job has status `COMPLETED` or `ERROR`.\n- `400` — Invalid `process_id` or job does not belong to your account."
+        },
+        {
+          "info": {
+            "name": "Download batch job results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.revenuebase.ai/v2/jobs/:process_id/download",
+            "params": [
+              {
+                "name": "process_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Streams the processed output file for a completed or cancelled batch job. The response includes a `Content-Disposition` header with the original filename.\n\n**Errors**\n- `400 not_completed` — Job must be `COMPLETED` or `CANCELLED` before downloading.\n- `400 process_error` — Job ended with an error. No output file available.\n- `400` — Invalid `process_id` or job does not belong to your account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,9 +1,11 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
 source:
-- openapi/revenuebase-openapi.json
-- https://docs.revenuebase.ai/api-reference/authentication
-- https://docs.revenuebase.ai/api-reference/rate-limits
+- openapi/_original/revenuebase-openapi.json
+- openapi/_original/revenuebase-contact-refresh-openapi.json
+- https://docs.revenuebase.ai/api-reference/v2/authentication
+- https://docs.revenuebase.ai/api-reference/v2/rate-limits
+- live probes of api.revenuebase.ai
 api: Revenuebase API v2
 base_url: https://api.revenuebase.ai
 authentication:
@@ -37,9 +39,38 @@ rate_limiting:
   - endpoint: POST /v2/email/verify
     limit: 5 requests/second
 error_envelope:
-  format: none
-  detail: FastAPI HTTPValidationError for 422; string detail/error-code for 400/402.
+  format: mixed
+  detail: >-
+    Two envelopes across two services. Revenuebase API v2 returns application/json
+    with FastAPI HTTPValidationError for 422 and a string detail/error-code for
+    400/401/402. The newer contact-refresh service returns RFC 9457
+    application/problem+json with type/title/status/detail. Observed live.
   ref: errors/revenuebase-problem-types.yml
+request_tracing:
+  supported: partial
+  field: request_id
+  location: response body
+  detail: >-
+    The contact-refresh service returns a request_id (UUID) in both its success
+    envelope (RefreshEmailResponse.request_id) and its problem+json error bodies.
+    The v2 email/organization/jobs/account endpoints return no request id and no
+    correlation header.
+schema_versioning:
+  supported: partial
+  field: schema_version
+  detail: >-
+    RefreshEmailResponse carries an integer schema_version (default 2) alongside the
+    URI-path API version — a payload-level version signal the older v2 responses do
+    not have.
+agent_surfaces:
+  llms_txt: https://docs.revenuebase.ai/llms.txt
+  mcp: https://docs.revenuebase.ai/mcp
+  agent_card: https://docs.revenuebase.ai/.well-known/agent-card.json
+  agent_skills: https://docs.revenuebase.ai/.well-known/agent-skills/index.json
+  detail: >-
+    All four agent surfaces live on the documentation host and are read-only over
+    documentation content. None of them can invoke the data API; that requires a
+    direct REST call with an x-key header. See mcp/revenuebase-tool-crosswalk.yml.
 metering:
   model: credits
   detail: >-

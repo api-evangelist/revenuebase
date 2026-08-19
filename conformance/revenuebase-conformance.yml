@@ -1,30 +1,106 @@
-generated: '2026-07-20'
-method: derived
+generated: '2026-08-13'
+method: probed
 source:
-- openapi/revenuebase-openapi.json
-- https://docs.revenuebase.ai/api-reference/rate-limits
+- openapi/_original/revenuebase-openapi.json
+- openapi/_original/revenuebase-contact-refresh-openapi.json
+- https://docs.revenuebase.ai/api-reference/v2/rate-limits
+- live probes of api.revenuebase.ai and docs.revenuebase.ai
+note: >-
+  Two RevenueBase services behave differently and the difference is measured here
+  rather than averaged away. The established v2 service (email, organization, jobs,
+  account) returns a bare FastAPI {"detail": "..."} body as application/json. The
+  newer contact-refresh service returns RFC 9457 application/problem+json with
+  type/title/status/detail plus a request_id — observed live, not inferred. Treat
+  rfc9457 as partial, not as a property of the API as a whole.
 standards:
 - id: openapi-3.1
   conforms: true
-  evidence: Published OpenAPI 3.1.0 description served at api.revenuebase.ai/v2/openapi.json.
-- id: oauth2
-  conforms: false
-  evidence: No oauth2 security scheme; API-key-only (x-key header).
-- id: oidc
-  conforms: false
-  evidence: No OpenID Connect / openid-configuration document (probe returned 404).
+  evidence: >-
+    OpenAPI 3.1.0 served at https://api.revenuebase.ai/v2/openapi.json (HTTP 200,
+    re-probed 2026-08-13). A second OpenAPI 3.1.0 for the contact-refresh service is
+    published through the documentation host.
 - id: rfc9457
-  conforms: false
-  evidence: Errors use FastAPI HTTPValidationError, not application/problem+json.
-- id: idempotency
-  conforms: false
-  evidence: No Idempotency-Key header or documented idempotent-retry semantics.
-- id: pagination
-  conforms: false
-  evidence: No standard cursor/offset pagination; result_count params instead.
+  conforms: partial
+  evidence: >-
+    POST https://api.revenuebase.ai/v2/contact/refresh/email returned HTTP 401 with
+    Content-Type application/problem+json and body
+    {"type":"about:blank","title":"Unauthorized","status":401,"detail":"Missing or
+    empty X-Key header.","request_id":"..."}. The v2 email/organization/jobs/account
+    endpoints do NOT: they return application/json {"detail":"Not authenticated"}.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Live remote MCP server at https://docs.revenuebase.ai/mcp. initialize returned
+    protocolVersion 2025-06-18 and tools/list returned 3 tools with JSON Schema
+    draft-07 inputSchemas, anonymously. Documentation-scoped, not the data API.
+- id: a2a
+  conforms: true
+  evidence: >-
+    A2A Agent Card at https://docs.revenuebase.ai/.well-known/agent-card.json,
+    protocolVersion 0.3, capabilities object, skills array. Graded conformant with
+    deviations in a2a/revenuebase-a2a.yml.
+- id: agent-skills
+  conforms: true
+  evidence: >-
+    Agent Skills discovery index at
+    https://docs.revenuebase.ai/.well-known/agent-skills/index.json declaring
+    $schema https://schemas.agentskills.io/discovery/0.2.0/schema.json, plus the
+    skill document itself at /.well-known/agent-skills/revenuebase/skill.md.
+- id: llms-txt
+  conforms: true
+  evidence: https://docs.revenuebase.ai/llms.txt returns 200 text/plain with a real link-list document.
 - id: rate-limit-headers
   conforms: true
-  evidence: Standard X-RateLimit-Limit/Remaining/Reset headers with 429 on exceed.
+  evidence: >-
+    Documented X-RateLimit-Limit / X-RateLimit-Remaining / X-RateLimit-Reset with
+    429 on exceed. Legacy X- prefixed form, not the RFC 9331 RateLimit-* draft form.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on revenuebase.ai, api.revenuebase.ai and docs.revenuebase.ai.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme in either spec; API-key-only (x-key / X-Key header).
+- id: oidc
+  conforms: false
+  evidence: No /.well-known/openid-configuration on any host (404).
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No Idempotency-Key header or documented idempotent-retry semantics in either
+    spec or the docs. Batch safety is handled instead by server-issued process_id
+    job tracking.
+- id: pagination
+  conforms: false
+  evidence: No cursor/offset pagination; result_count request-body parameters instead.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    A v1 sunset date is published in prose (2026-07-07) but no Sunset or Deprecation
+    response header is documented.
 - id: json-api
   conforms: false
-  evidence: Plain JSON payloads; not JSON:API media type.
+  evidence: Plain JSON payloads; not the JSON:API media type.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event surface. A case-insensitive search of the entire documentation corpus
+    for webhook / callback_url / event stream returned zero matches, so there is no
+    AsyncAPI or webhook catalog to capture and none is expected.
+compliance_program:
+  published: false
+  note: >-
+    No trust center, no named certifications (SOC 2 / ISO 27001 / GDPR posture page)
+    and no /security or /compliance page were found. trust.revenuebase.ai does not
+    resolve; revenuebase.ai/security returns 404. No Compliance pointer is emitted.
+x-evidence:
+- url: https://api.revenuebase.ai/v2/contact/refresh/email
+  http_status: 401
+  content_type: application/problem+json
+  fetched: '2026-08-13'
+- url: https://api.revenuebase.ai/v2/email/verify
+  http_status: 401
+  content_type: application/json
+  fetched: '2026-08-13'
+- url: https://docs.revenuebase.ai/mcp
+  http_status: 200
+  fetched: '2026-08-13'

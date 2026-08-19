@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Revenuebase API v2 Account Organization API",
+    "version": "0.1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Match an organization name to a verified record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/organization/resolve",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uses semantic search to find the closest matching organizations for a given name. Optionally filter by headquarters location. Returns up to 10 results ranked by similarity score. Deducts 1 credit per request.\n\n`result_count` must be between 1 and 10 (inclusive).\n\n**Errors**\n- `400` — `result_count` is out of the allowed range.\n- `402` — Insufficient credits."
+        },
+        {
+          "info": {
+            "name": "Discover organizations by keyword",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.revenuebase.ai/v2/organization/discover",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "x-key",
+              "value": "{{x-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uses semantic search to find organizations matching a keyword or natural-language description. Optionally filter by headquarters location. Returns up to 10,000 results ranked by similarity score. Credits are deducted only for results that meet the `min_similarity_score` threshold.\n\n`result_count` must be between 1 and 10000 (inclusive).\n`min_similarity_score` must be between 0 and 0.95 (inclusive). Defaults to 0.\n\n**Errors**\n- `400` — `result_count` is out of the allowed range, or `min_similarit"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,66 +1,108 @@
-generated: '2026-07-20'
-method: derived
-status: candidate
-source: openapi/revenuebase-openapi.json
+generated: '2026-08-13'
+method: probed
+status: published
+source: https://docs.revenuebase.ai/mcp
+discovery:
+- url: https://docs.revenuebase.ai/.well-known/mcp.json
+  http_status: 200
+  note: Provider-served MCP discovery document naming the http transport and endpoint.
+- url: https://docs.revenuebase.ai/mcp
+  http_status: 200
+  note: >-
+    initialize + tools/list both answered 200 anonymously (no OAuth challenge,
+    no API key). GET returns 405 Method Not Allowed; POST is the transport.
 note: >-
-  RevenueBase does not publish a hosted/remote MCP server (no mcp.revenuebase.ai,
-  api.revenuebase.ai/mcp returns 404, and the docs "AI tools" section only covers
-  Claude Code / Cursor / Windsurf editor configuration, not an MCP endpoint). The
-  tool list below is a CANDIDATE derived one-to-one from the v2 OpenAPI operations
-  to illustrate a possible MCP surface — it is not an official RevenueBase server.
+  RevenueBase operates a live, anonymous, remote MCP server on its own
+  documentation host. It is a DOCUMENTATION server, not a data-API server: the
+  three tools search and read the RevenueBase docs corpus and file docs feedback.
+  None of the v2 data operations (email verification, organization resolve/discover,
+  batch jobs, account balance) are exposed as MCP tools — an agent that wants those
+  must call the REST API directly with an x-key header. The server is branded
+  RevenueBase (serverInfo.name "RevenueBase") and is Mintlify-provided infrastructure
+  served from docs.revenuebase.ai; the .well-known/mcp.json document also lists the
+  underlying Mintlify origin (revenuebase.main-kill-isr.mintlify.me/mcp) as the same
+  server. The docs host also serves an A2A agent card (see a2a/) and an Agent Skills
+  discovery index (see well-known/ and skills/).
 server:
-  name: revenuebase
-  transport: null
-  url: null
-  published: false
+  name: RevenueBase
+  version: 1.0.0
+  transport: http
+  url: https://docs.revenuebase.ai/mcp
+  published: true
+  protocol_version: '2025-06-18'
+  auth: none
+  capabilities:
+    tools:
+      listChanged: true
+    resources:
+      listChanged: true
+  scope: documentation
+deployment:
+  mode: remote
+  endpoint: https://docs.revenuebase.ai/mcp
+  auth: none
+  verified: probed
+  checked: '2026-08-13'
+  note: >-
+    Remote HTTP endpoint an MCP client POSTs to directly. No stdio package, no npx
+    install — RevenueBase publishes no local MCP server.
 tools:
-- name: get_account_balance
-  operationId: get_usage_v2_account_balance_get
-  method: GET
-  path: /v2/account/balance
-  description: Return remaining validation credits on the account.
-- name: rotate_api_key
-  operationId: rotate_api_key_v2_account_api_keys_rotate_post
-  method: POST
-  path: /v2/account/api-keys/rotate
-  description: Generate a new API key and invalidate the previous one.
-- name: verify_email
-  operationId: verify_email_v2_email_verify_post
-  method: POST
-  path: /v2/email/verify
-  description: Verify a single email address synchronously (Valid/Invalid/Unknown).
-- name: verify_email_batch
-  operationId: verify_email_batch_v2_email_verify_batch_post
-  method: POST
-  path: /v2/email/verify/batch
-  description: Upload a CSV/JSON file and queue it for asynchronous verification.
-- name: list_jobs
-  operationId: list_jobs_v2_jobs_get
-  method: GET
-  path: /v2/jobs
-  description: List batch jobs currently QUEUED or PROCESSING.
-- name: get_job
-  operationId: get_job_v2_jobs__process_id__get
-  method: GET
-  path: /v2/jobs/{process_id}
-  description: Get the current processing status of a batch job.
-- name: cancel_job
-  operationId: cancel_job_v2_jobs__process_id__cancel_post
-  method: POST
-  path: /v2/jobs/{process_id}/cancel
-  description: Mark a batch job for cancellation.
-- name: download_job
-  operationId: download_job_v2_jobs__process_id__download_get
-  method: GET
-  path: /v2/jobs/{process_id}/download
-  description: Download the processed output file for a completed/cancelled job.
-- name: resolve_organization
-  operationId: resolve_company_v2_organization_resolve_post
-  method: POST
-  path: /v2/organization/resolve
-  description: Match an organization name to a verified RevenueBase record.
-- name: discover_organizations
-  operationId: discover_company_v2_organization_discover_post
-  method: POST
-  path: /v2/organization/discover
-  description: Discover organizations by keyword via semantic search.
+- name: search_revenue_base
+  title: Search documentation
+  description: >-
+    Search across the RevenueBase knowledge base to find relevant information, code
+    examples, API references, and guides.
+  input_schema:
+    query: string (required)
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: false
+- name: query_docs_filesystem_revenue_base
+  description: >-
+    Read-only shell-like query against a virtualized in-memory filesystem containing
+    only the RevenueBase documentation pages and OpenAPI specs. Supports rg, grep,
+    find, tree, ls, cat, head, tail, stat, wc, sort, uniq, cut, sed, awk, jq. No
+    writes, no network, no process control. Stateless per call; output truncated to
+    30KB.
+  input_schema:
+    command: string (required)
+  annotations:
+    readOnlyHint: true
+    destructiveHint: false
+    idempotentHint: true
+    openWorldHint: false
+- name: submit_feedback
+  title: Submit documentation feedback
+  description: Report a problem with a documentation page to the RevenueBase docs team.
+  input_schema:
+    path: string (required)
+    feedback: string (required)
+  annotations:
+    readOnlyHint: false
+    destructiveHint: false
+    idempotentHint: false
+    openWorldHint: true
+resources:
+- uri: mintlify://skills/revenuebase
+  name: revenuebase
+  mime_type: text/markdown
+  description: >-
+    The RevenueBase Agent Skill, also served at
+    https://docs.revenuebase.ai/.well-known/agent-skills/revenuebase/skill.md
+    and saved verbatim to skills/revenuebase-provider-skill.md.
+x-evidence:
+  fetched: '2026-08-13'
+  initialize_http_status: 200
+  tools_list_http_status: 200
+  resources_list_http_status: 200
+  content_type: text/event-stream
+  tool_count: 3
+  resource_count: 1
+  misses:
+  - url: https://api.revenuebase.ai/mcp
+    http_status: 404
+  - url: https://mcp.revenuebase.ai/mcp
+    http_status: 0
+    note: DNS does not resolve.
