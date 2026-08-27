@@ -134,31 +134,6 @@ apis:
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
     url: errors/revenuebase-problem-types.yml
-- aid: revenuebase:revenuebase-contact-refresh-api
-  name: RevenueBase Contact Refresh API
-  description: >-
-    The contact-refresh service from RevenueBase — resolves an email address to the
-    person's current contact records so a stale CRM row can be reconnected to whoever
-    that person is today. One operation (POST /v2/contact/refresh/email) plus shallow
-    and deep health probes. Marketed on the pricing page as "Reconnect to find contacts
-    who changed companies" and still labelled coming soon there, but the endpoint is
-    live on api.revenuebase.ai and its OpenAPI 3.1.0 is published through the
-    documentation host. Authenticates with the same API key, passed as X-Key, and is
-    the only RevenueBase surface that returns RFC 9457 application/problem+json.
-  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
-  baseURL: https://api.revenuebase.ai
-  tags:
-  - Contact
-  - Enrichment
-  properties:
-  - type: OpenAPI
-    url: openapi/_original/revenuebase-contact-refresh-openapi.json
-  - type: Documentation
-    url: https://docs.revenuebase.ai/
-  - type: Authentication
-    url: authentication/revenuebase-authentication.yml
-  - type: ErrorCatalog
-    url: errors/revenuebase-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
