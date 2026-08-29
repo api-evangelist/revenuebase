@@ -146,6 +146,26 @@ apis:
     url: authentication/revenuebase-authentication.yml
   - type: ErrorCatalog
     url: errors/revenuebase-problem-types.yml
+- aid: revenuebase:revenuebase-health-api
+  name: RevenueBase Health API
+  description: The health API from RevenueBase — 2 operation(s) for health.
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - health
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-health-api-openapi.yml
+- aid: revenuebase:revenuebase-v2-api
+  name: RevenueBase V2 API
+  description: The v2 API from RevenueBase — 1 operation(s) for v2.
+  humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
+  baseURL: https://api.revenuebase.ai
+  tags:
+  - v2
+  properties:
+  - type: OpenAPI
+    url: openapi/revenuebase-v2-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

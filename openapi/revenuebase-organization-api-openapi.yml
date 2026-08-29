@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Revenuebase API v2 Account Organization API
+  title: Revenuebase API v2 Organization API
   version: 0.1.0
 servers:
 - url: https://api.revenuebase.ai
@@ -95,6 +95,62 @@ paths:
         source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nresult = client.organization.discover(\n    keyword=\"enterprise SaaS cybersecurity\",\n    result_count=50,\n    headquarters_country=\"US\",\n)\nfor org in result.companies:\n    print(org.company_name, org.about_us)"
 components:
   schemas:
+    Company:
+      properties:
+        rbid:
+          type: string
+          title: Rbid
+        company_name:
+          type: string
+          title: Company Name
+        similar_score:
+          type: number
+          title: Similar Score
+        about_us:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: About Us
+        headquarters_street:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Street
+        headquarters_city:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters City
+        headquarters_state:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters State
+        headquarters_zip:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Zip
+        headquarters_country:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Headquarters Country
+      type: object
+      required:
+      - rbid
+      - company_name
+      - similar_score
+      title: Company
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -205,62 +261,6 @@ components:
       required:
       - company_name
       title: CompanyResolverRequest
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Company:
-      properties:
-        rbid:
-          type: string
-          title: Rbid
-        company_name:
-          type: string
-          title: Company Name
-        similar_score:
-          type: number
-          title: Similar Score
-        about_us:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: About Us
-        headquarters_street:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Headquarters Street
-        headquarters_city:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Headquarters City
-        headquarters_state:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Headquarters State
-        headquarters_zip:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Headquarters Zip
-        headquarters_country:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Headquarters Country
-      type: object
-      required:
-      - rbid
-      - company_name
-      - similar_score
-      title: Company
     CompanyResolverResponse:
       properties:
         companies:

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Revenuebase API v2 Account Email API
+  title: Revenuebase API v2 Email API
   version: 0.1.0
 servers:
 - url: https://api.revenuebase.ai
@@ -130,6 +130,35 @@ components:
       - filename
       - status
       title: BatchEmailResponse
+    Body_verify_email_batch_v2_email_verify_batch_post:
+      properties:
+        requested_file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Requested File
+      type: object
+      required:
+      - requested_file
+      title: Body_verify_email_batch_v2_email_verify_batch_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RealTimeEmailRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: RealTimeEmailRequest
     ValidationError:
       properties:
         loc:
@@ -156,35 +185,6 @@ components:
       - msg
       - type
       title: ValidationError
-    RealTimeEmailRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-      type: object
-      required:
-      - email
-      title: RealTimeEmailRequest
-    Body_verify_email_batch_v2_email_verify_batch_post:
-      properties:
-        requested_file:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Requested File
-      type: object
-      required:
-      - requested_file
-      title: Body_verify_email_batch_v2_email_verify_batch_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

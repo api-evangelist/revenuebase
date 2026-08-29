@@ -1,0 +1,48 @@
+openapi: 3.2.0
+info:
+  title: contact-refresh Health API
+  version: dev
+tags:
+- name: health
+paths:
+  /health:
+    get:
+      tags:
+      - health
+      summary: Shallow liveness probe
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+  /health/ready:
+    get:
+      tags:
+      - health
+      summary: Deep readiness probe — confirms DynamoDB connectivity
+      operationId: health_ready_health_ready_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+components:
+  schemas:
+    HealthResponse:
+      properties:
+        status:
+          type: string
+          title: Status
+          default: ok
+      type: object
+      title: HealthResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Key

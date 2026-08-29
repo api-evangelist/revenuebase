@@ -1,12 +1,12 @@
 {
   "provider": "revenuebase",
   "sources": [
-    "revenuebase-account-api-openapi.yml",
-    "revenuebase-email-api-openapi.yml",
-    "revenuebase-jobs-api-openapi.yml",
-    "revenuebase-organization-api-openapi.yml"
+    "_original/revenuebase-contact-refresh-openapi.json",
+    "_original/revenuebase-openapi.json"
   ],
   "outputs": [
+    "revenuebase-health-api-openapi.yml",
+    "revenuebase-v2-api-openapi.yml",
     "revenuebase-account-api-openapi.yml",
     "revenuebase-email-api-openapi.yml",
     "revenuebase-jobs-api-openapi.yml",
@@ -15,6 +15,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "revenuebase-contact-refresh-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "revenuebase-contact-refresh-openapi.json: declared missing tag: health",
+    "revenuebase-contact-refresh-openapi.json: declared missing tag: v2",
+    "revenuebase-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "revenuebase-openapi.json: declared missing tag: Account",
+    "revenuebase-openapi.json: declared missing tag: Email",
+    "revenuebase-openapi.json: declared missing tag: Jobs",
+    "revenuebase-openapi.json: declared missing tag: Organization"
+  ],
+  "skipped": [
+    "revenuebase-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-email-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
