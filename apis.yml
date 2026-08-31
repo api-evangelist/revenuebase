@@ -152,6 +152,8 @@ apis:
   humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
+  - Health
+  tags_raw:
   - health
   properties:
   - type: OpenAPI
@@ -162,6 +164,8 @@ apis:
   humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
+  - V2
+  tags_raw:
   - v2
   properties:
   - type: OpenAPI
