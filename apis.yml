@@ -164,7 +164,7 @@ apis:
   humanURL: https://docs.revenuebase.ai/api-reference/v2/overview
   baseURL: https://api.revenuebase.ai
   tags:
-  - V2
+  - v2
   tags_raw:
   - v2
   properties:
