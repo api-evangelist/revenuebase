@@ -258,6 +258,8 @@ common:
   url: plans/revenuebase-plans-pricing.yml
 - type: ReleaseNotes
   url: https://docs.revenuebase.ai/docs/release-notes
+- type: Contact
+  url: mailto:sales@revenuebase.ai
 x-enrichment:
   date: '2026-08-13'
   status: enriched
