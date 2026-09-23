@@ -3,12 +3,12 @@ info:
   title: contact-refresh Health API
   version: dev
 tags:
-- name: health
+- name: Health
 paths:
   /health:
     get:
       tags:
-      - health
+      - Health
       summary: Shallow liveness probe
       operationId: health_health_get
       responses:
@@ -21,7 +21,7 @@ paths:
   /health/ready:
     get:
       tags:
-      - health
+      - Health
       summary: Deep readiness probe — confirms DynamoDB connectivity
       operationId: health_ready_health_ready_get
       responses:

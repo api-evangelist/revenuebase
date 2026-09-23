@@ -170,6 +170,17 @@ paths:
         source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\ndata = client.jobs.download(process_id=42)\nwith open(\"results.csv\", \"wb\") as f:\n    f.write(data)"
 components:
   schemas:
+    QueuedProcessesResponse:
+      properties:
+        processes:
+          items:
+            $ref: '#/components/schemas/Process'
+          type: array
+          title: Processes
+      type: object
+      required:
+      - processes
+      title: QueuedProcessesResponse
     BatchEmailStatusResponse:
       properties:
         process_id:
@@ -191,17 +202,15 @@ components:
       - current_status
       - message
       title: BatchEmailStatusResponse
-    QueuedProcessesResponse:
+    HTTPValidationError:
       properties:
-        processes:
+        detail:
           items:
-            $ref: '#/components/schemas/Process'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Processes
+          title: Detail
       type: object
-      required:
-      - processes
-      title: QueuedProcessesResponse
+      title: HTTPValidationError
     Process:
       properties:
         process_id:
@@ -228,15 +237,6 @@ components:
       - message
       - last_updated
       title: Process
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

@@ -24,12 +24,15 @@
     "revenuebase-openapi.json: declared missing tag: Account",
     "revenuebase-openapi.json: declared missing tag: Email",
     "revenuebase-openapi.json: declared missing tag: Jobs",
-    "revenuebase-openapi.json: declared missing tag: Organization"
+    "revenuebase-openapi.json: declared missing tag: Organization",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "revenuebase-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "revenuebase-email-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "revenuebase-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "revenuebase-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "revenuebase-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-v2-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }

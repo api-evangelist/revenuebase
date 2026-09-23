@@ -34,6 +34,38 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
+    RefreshEmailResponse:
+      properties:
+        schema_version:
+          type: integer
+          title: Schema Version
+          default: 2
+        status:
+          type: string
+          enum:
+          - current
+          - refresh
+          - no_match
+          title: Status
+        input_email:
+          type: string
+          title: Input Email
+        contacts:
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
+          title: Contacts
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      required:
+      - status
+      - input_email
+      title: RefreshEmailResponse
+      description: The full response. See README / OpenAPI for field-by-field docs.
     Contact:
       properties:
         RBID_PER:
@@ -600,38 +632,6 @@ components:
       required:
       - email
       title: RefreshEmailRequest
-    RefreshEmailResponse:
-      properties:
-        schema_version:
-          type: integer
-          title: Schema Version
-          default: 2
-        status:
-          type: string
-          enum:
-          - current
-          - refresh
-          - no_match
-          title: Status
-        input_email:
-          type: string
-          title: Input Email
-        contacts:
-          items:
-            $ref: '#/components/schemas/Contact'
-          type: array
-          title: Contacts
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      required:
-      - status
-      - input_email
-      title: RefreshEmailResponse
-      description: The full response. See README / OpenAPI for field-by-field docs.
   securitySchemes:
     APIKeyHeader:
       type: apiKey

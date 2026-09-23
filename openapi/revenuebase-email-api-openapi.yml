@@ -113,6 +113,16 @@ paths:
         source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nwith open(\"emails.csv\", \"rb\") as f:\n    job = client.email.batch_upload(file=f, filename=\"emails.csv\")\n\nprint(job.process_id)"
 components:
   schemas:
+    Body_verify_email_batch_v2_email_verify_batch_post:
+      properties:
+        requested_file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: Requested File
+      type: object
+      required:
+      - requested_file
+      title: Body_verify_email_batch_v2_email_verify_batch_post
     BatchEmailResponse:
       properties:
         process_id:
@@ -130,25 +140,6 @@ components:
       - filename
       - status
       title: BatchEmailResponse
-    Body_verify_email_batch_v2_email_verify_batch_post:
-      properties:
-        requested_file:
-          type: string
-          contentMediaType: application/octet-stream
-          title: Requested File
-      type: object
-      required:
-      - requested_file
-      title: Body_verify_email_batch_v2_email_verify_batch_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     RealTimeEmailRequest:
       properties:
         email:
@@ -159,6 +150,15 @@ components:
       required:
       - email
       title: RealTimeEmailRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:

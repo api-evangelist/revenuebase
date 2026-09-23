@@ -8,21 +8,17 @@ discovery:
   note: Provider-served MCP discovery document naming the http transport and endpoint.
 - url: https://docs.revenuebase.ai/mcp
   http_status: 200
-  note: >-
-    initialize + tools/list both answered 200 anonymously (no OAuth challenge,
-    no API key). GET returns 405 Method Not Allowed; POST is the transport.
-note: >-
-  RevenueBase operates a live, anonymous, remote MCP server on its own
-  documentation host. It is a DOCUMENTATION server, not a data-API server: the
-  three tools search and read the RevenueBase docs corpus and file docs feedback.
-  None of the v2 data operations (email verification, organization resolve/discover,
-  batch jobs, account balance) are exposed as MCP tools — an agent that wants those
-  must call the REST API directly with an x-key header. The server is branded
-  RevenueBase (serverInfo.name "RevenueBase") and is Mintlify-provided infrastructure
-  served from docs.revenuebase.ai; the .well-known/mcp.json document also lists the
-  underlying Mintlify origin (revenuebase.main-kill-isr.mintlify.me/mcp) as the same
-  server. The docs host also serves an A2A agent card (see a2a/) and an Agent Skills
-  discovery index (see well-known/ and skills/).
+  note: initialize + tools/list both answered 200 anonymously (no OAuth challenge, no API key). GET returns
+    405 Method Not Allowed; POST is the transport.
+note: 'RevenueBase operates a live, anonymous, remote MCP server on its own documentation host. It is
+  a DOCUMENTATION server, not a data-API server: the three tools search and read the RevenueBase docs
+  corpus and file docs feedback. None of the v2 data operations (email verification, organization resolve/discover,
+  batch jobs, account balance) are exposed as MCP tools — an agent that wants those must call the REST
+  API directly with an x-key header. The server is branded RevenueBase (serverInfo.name "RevenueBase")
+  and is Mintlify-provided infrastructure served from docs.revenuebase.ai; the .well-known/mcp.json document
+  also lists the underlying Mintlify origin (revenuebase.main-kill-isr.mintlify.me/mcp) as the same server.
+  The docs host also serves an A2A agent card (see a2a/) and an Agent Skills discovery index (see well-known/
+  and skills/).'
 server:
   name: RevenueBase
   version: 1.0.0
@@ -38,20 +34,16 @@ server:
       listChanged: true
   scope: documentation
 deployment:
-  mode: remote
-  endpoint: https://docs.revenuebase.ai/mcp
-  auth: none
-  verified: probed
-  checked: '2026-08-13'
-  note: >-
-    Remote HTTP endpoint an MCP client POSTs to directly. No stdio package, no npx
-    install — RevenueBase publishes no local MCP server.
+  mode: none
+  verified: derived
+  tools: 10
+  checked: '2026-08-12'
+  source: catalog MCP census
 tools:
 - name: search_revenue_base
   title: Search documentation
-  description: >-
-    Search across the RevenueBase knowledge base to find relevant information, code
-    examples, API references, and guides.
+  description: Search across the RevenueBase knowledge base to find relevant information, code examples,
+    API references, and guides.
   input_schema:
     query: string (required)
   annotations:
@@ -60,12 +52,10 @@ tools:
     idempotentHint: true
     openWorldHint: false
 - name: query_docs_filesystem_revenue_base
-  description: >-
-    Read-only shell-like query against a virtualized in-memory filesystem containing
-    only the RevenueBase documentation pages and OpenAPI specs. Supports rg, grep,
-    find, tree, ls, cat, head, tail, stat, wc, sort, uniq, cut, sed, awk, jq. No
-    writes, no network, no process control. Stateless per call; output truncated to
-    30KB.
+  description: Read-only shell-like query against a virtualized in-memory filesystem containing only the
+    RevenueBase documentation pages and OpenAPI specs. Supports rg, grep, find, tree, ls, cat, head, tail,
+    stat, wc, sort, uniq, cut, sed, awk, jq. No writes, no network, no process control. Stateless per
+    call; output truncated to 30KB.
   input_schema:
     command: string (required)
   annotations:
@@ -88,9 +78,7 @@ resources:
 - uri: mintlify://skills/revenuebase
   name: revenuebase
   mime_type: text/markdown
-  description: >-
-    The RevenueBase Agent Skill, also served at
-    https://docs.revenuebase.ai/.well-known/agent-skills/revenuebase/skill.md
+  description: The RevenueBase Agent Skill, also served at https://docs.revenuebase.ai/.well-known/agent-skills/revenuebase/skill.md
     and saved verbatim to skills/revenuebase-provider-skill.md.
 x-evidence:
   fetched: '2026-08-13'
