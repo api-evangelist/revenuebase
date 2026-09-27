@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: contact-refresh V2 API
+  title: refresh Contact API
   version: dev
 tags:
-- name: v2
+- name: Contact
 paths:
   /v2/contact/refresh/email:
     post:
       tags:
-      - v2
+      - Contact
       summary: Resolve an email to the person's current contacts
       operationId: refresh_email_v2_contact_refresh_email_post
       requestBody:
@@ -34,38 +34,32 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
-    RefreshEmailResponse:
+    ValidationError:
       properties:
-        schema_version:
-          type: integer
-          title: Schema Version
-          default: 2
-        status:
-          type: string
-          enum:
-          - current
-          - refresh
-          - no_match
-          title: Status
-        input_email:
-          type: string
-          title: Input Email
-        contacts:
+        loc:
           items:
-            $ref: '#/components/schemas/Contact'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Contacts
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
-      - status
-      - input_email
-      title: RefreshEmailResponse
-      description: The full response. See README / OpenAPI for field-by-field docs.
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Contact:
       properties:
         RBID_PER:
@@ -582,41 +576,38 @@ components:
         source record does not carry it. Extra source fields are silently dropped —
 
         the pinned set is defined in DESIGN §1.3.'
-    HTTPValidationError:
+    RefreshEmailResponse:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        schema_version:
+          type: integer
+          title: Schema Version
+          default: 2
+        status:
           type: string
-          title: Message
-        type:
+          enum:
+          - current
+          - refresh
+          - no_match
+          title: Status
+        input_email:
           type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
+          title: Input Email
+        contacts:
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
+          title: Contacts
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - status
+      - input_email
+      title: RefreshEmailResponse
+      description: The full response. See README / OpenAPI for field-by-field docs.
     RefreshEmailRequest:
       properties:
         email:
@@ -632,6 +623,15 @@ components:
       required:
       - email
       title: RefreshEmailRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
   securitySchemes:
     APIKeyHeader:
       type: apiKey

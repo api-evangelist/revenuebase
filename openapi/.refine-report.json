@@ -5,27 +5,31 @@
     "_original/revenuebase-openapi.json"
   ],
   "outputs": [
+    "revenuebase-contact-api-openapi.yml",
     "revenuebase-health-api-openapi.yml",
-    "revenuebase-v2-api-openapi.yml",
     "revenuebase-account-api-openapi.yml",
     "revenuebase-email-api-openapi.yml",
     "revenuebase-jobs-api-openapi.yml",
     "revenuebase-organization-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "revenuebase-contact-refresh-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "revenuebase-contact-refresh-openapi.json: tagged paths POST /v2/contact/refresh/email -> Contact",
+    "revenuebase-contact-refresh-openapi.json: declared missing tag: Contact",
     "revenuebase-contact-refresh-openapi.json: declared missing tag: health",
-    "revenuebase-contact-refresh-openapi.json: declared missing tag: v2",
     "revenuebase-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "revenuebase-openapi.json: declared missing tag: Account",
     "revenuebase-openapi.json: declared missing tag: Email",
     "revenuebase-openapi.json: declared missing tag: Jobs",
     "revenuebase-openapi.json: declared missing tag: Organization",
-    "apis.yml register: already-registered"
+    "superseded outputs removed: revenuebase-v2-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 6 total)"
   ],
   "skipped": [
     "revenuebase-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
