@@ -12,9 +12,7 @@
     "revenuebase-jobs-api-openapi.yml",
     "revenuebase-organization-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -28,15 +26,14 @@
     "revenuebase-openapi.json: declared missing tag: Email",
     "revenuebase-openapi.json: declared missing tag: Jobs",
     "revenuebase-openapi.json: declared missing tag: Organization",
-    "superseded outputs removed: revenuebase-v2-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 6 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "revenuebase-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "revenuebase-contact-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "revenuebase-email-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "revenuebase-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "revenuebase-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "revenuebase-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "revenuebase-v2-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "revenuebase-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
