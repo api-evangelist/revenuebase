@@ -170,17 +170,6 @@ paths:
         source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\ndata = client.jobs.download(process_id=42)\nwith open(\"results.csv\", \"wb\") as f:\n    f.write(data)"
 components:
   schemas:
-    QueuedProcessesResponse:
-      properties:
-        processes:
-          items:
-            $ref: '#/components/schemas/Process'
-          type: array
-          title: Processes
-      type: object
-      required:
-      - processes
-      title: QueuedProcessesResponse
     ValidationError:
       properties:
         loc:
@@ -207,6 +196,43 @@ components:
       - msg
       - type
       title: ValidationError
+    QueuedProcessesResponse:
+      properties:
+        processes:
+          items:
+            $ref: '#/components/schemas/Process'
+          type: array
+          title: Processes
+      type: object
+      required:
+      - processes
+      title: QueuedProcessesResponse
+    Process:
+      properties:
+        process_id:
+          type: integer
+          title: Process Id
+        filename:
+          type: string
+          title: Filename
+        status:
+          type: string
+          title: Status
+        message:
+          type: string
+          title: Message
+        last_updated:
+          type: string
+          format: date-time
+          title: Last Updated
+      type: object
+      required:
+      - process_id
+      - filename
+      - status
+      - message
+      - last_updated
+      title: Process
     BatchEmailStatusResponse:
       properties:
         process_id:
@@ -237,32 +263,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Process:
-      properties:
-        process_id:
-          type: integer
-          title: Process Id
-        filename:
-          type: string
-          title: Filename
-        status:
-          type: string
-          title: Status
-        message:
-          type: string
-          title: Message
-        last_updated:
-          type: string
-          format: date-time
-          title: Last Updated
-      type: object
-      required:
-      - process_id
-      - filename
-      - status
-      - message
-      - last_updated
-      title: Process
   securitySchemes:
     APIKeyHeader:
       type: apiKey

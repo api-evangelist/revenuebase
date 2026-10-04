@@ -113,16 +113,23 @@ paths:
         source: "from revenuebase_sdk import RevenuebaseClient\n\nclient = RevenuebaseClient()\n\nwith open(\"emails.csv\", \"rb\") as f:\n    job = client.email.batch_upload(file=f, filename=\"emails.csv\")\n\nprint(job.process_id)"
 components:
   schemas:
-    Body_verify_email_batch_v2_email_verify_batch_post:
+    BatchEmailResponse:
       properties:
-        requested_file:
+        process_id:
+          type: integer
+          title: Process Id
+        filename:
           type: string
-          contentMediaType: application/octet-stream
-          title: Requested File
+          title: Filename
+        status:
+          type: string
+          title: Status
       type: object
       required:
-      - requested_file
-      title: Body_verify_email_batch_v2_email_verify_batch_post
+      - process_id
+      - filename
+      - status
+      title: BatchEmailResponse
     ValidationError:
       properties:
         loc:
@@ -168,23 +175,16 @@ components:
       required:
       - email
       title: RealTimeEmailRequest
-    BatchEmailResponse:
+    Body_verify_email_batch_v2_email_verify_batch_post:
       properties:
-        process_id:
-          type: integer
-          title: Process Id
-        filename:
+        requested_file:
           type: string
-          title: Filename
-        status:
-          type: string
-          title: Status
+          contentMediaType: application/octet-stream
+          title: Requested File
       type: object
       required:
-      - process_id
-      - filename
-      - status
-      title: BatchEmailResponse
+      - requested_file
+      title: Body_verify_email_batch_v2_email_verify_batch_post
   securitySchemes:
     APIKeyHeader:
       type: apiKey

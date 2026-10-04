@@ -34,88 +34,6 @@ paths:
       - APIKeyHeader: []
 components:
   schemas:
-    RefreshEmailResponse:
-      properties:
-        schema_version:
-          type: integer
-          title: Schema Version
-          default: 2
-        status:
-          type: string
-          enum:
-          - current
-          - refresh
-          - no_match
-          title: Status
-        input_email:
-          type: string
-          title: Input Email
-        contacts:
-          items:
-            $ref: '#/components/schemas/Contact'
-          type: array
-          title: Contacts
-        request_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Request Id
-      type: object
-      required:
-      - status
-      - input_email
-      title: RefreshEmailResponse
-      description: The full response. See README / OpenAPI for field-by-field docs.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    RefreshEmailRequest:
-      properties:
-        email:
-          type: string
-          maxLength: 320
-          minLength: 3
-          pattern: ^[^\s@]+@[^\s@]+\.[^\s@]+$
-          title: Email
-          examples:
-          - user@example.com
-      additionalProperties: false
-      type: object
-      required:
-      - email
-      title: RefreshEmailRequest
     Contact:
       properties:
         RBID_PER:
@@ -632,6 +550,88 @@ components:
         source record does not carry it. Extra source fields are silently dropped —
 
         the pinned set is defined in DESIGN §1.3.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    RefreshEmailRequest:
+      properties:
+        email:
+          type: string
+          maxLength: 320
+          minLength: 3
+          pattern: ^[^\s@]+@[^\s@]+\.[^\s@]+$
+          title: Email
+          examples:
+          - user@example.com
+      additionalProperties: false
+      type: object
+      required:
+      - email
+      title: RefreshEmailRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    RefreshEmailResponse:
+      properties:
+        schema_version:
+          type: integer
+          title: Schema Version
+          default: 2
+        status:
+          type: string
+          enum:
+          - current
+          - refresh
+          - no_match
+          title: Status
+        input_email:
+          type: string
+          title: Input Email
+        contacts:
+          items:
+            $ref: '#/components/schemas/Contact'
+          type: array
+          title: Contacts
+        request_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Request Id
+      type: object
+      required:
+      - status
+      - input_email
+      title: RefreshEmailResponse
+      description: The full response. See README / OpenAPI for field-by-field docs.
   securitySchemes:
     APIKeyHeader:
       type: apiKey
