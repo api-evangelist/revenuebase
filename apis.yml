@@ -175,6 +175,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/revenuebase-capability-edges.yml
+  name: RevenueBase Business Capability Map
 - type: AgenticAccess
   url: agentic-access/revenuebase-agentic-access.yml
 - type: Website

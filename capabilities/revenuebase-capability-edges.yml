@@ -1,0 +1,54 @@
+slug: revenuebase
+provider: RevenueBase
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Email
+  spec_file: revenuebase-email-api-openapi.yml
+  capability_id: BC-610.30
+  capability_id_l1: BC-610
+  capability_name: Data Quality Management
+  confidence: 0.8
+  evidence: POST /v2/email/verify  Verify a single email address; POST /v2/email/verify/batch  Upload
+    a batch file for email verification
+  reason: Email address verification single and batch is data quality validation of contact data, not
+    marketing execution.
+- tag: Organization
+  spec_file: revenuebase-organization-api-openapi.yml
+  capability_id: BC-610.20
+  capability_id_l1: BC-610
+  capability_name: Master Data Management
+  confidence: 0.75
+  evidence: POST /v2/organization/resolve  Match an organization name to a verified record
+  reason: Company name matching to verified golden records and keyword discovery is master data / entity
+    resolution over company data.
+- tag: Contact
+  spec_file: revenuebase-contact-api-openapi.yml
+  capability_id: BC-610.20
+  capability_id_l1: BC-610
+  capability_name: Master Data Management
+  confidence: 0.72
+  evidence: POST /v2/contact/refresh/email  Resolve an email to the person's current contacts
+  reason: Resolves/refreshes contact records against a verified B2B dataset — identity resolution and
+    enrichment of contact master data. Could also serve CRM customer data, but the API itself is data
+    resolution.
+- tag: Account
+  spec_file: revenuebase-account-api-openapi.yml
+  capability_id: BC-4270.50
+  capability_id_l1: BC-4270
+  capability_name: API Consumption Governance
+  confidence: 0.7
+  evidence: GET /v2/account/balance  Get your remaining credit balance; POST /v2/account/api-keys/rotate  Rotate
+    your API key
+  reason: API consumption credit balance plus API key rotation — developer credential and API consumption
+    governance plumbing rather than a customer account business capability.
