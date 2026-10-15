@@ -63,10 +63,38 @@ edges:
     detected: '2026-10-15'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
+- partner_name: n8n
+  partner: n8n
+  partner_match: aggregator
+  type: marketplace
+  marketplace: n8n-community
+  channel: open-source-node
+  relationship: ipaas-bridge
+  direction: provider-built
+  evidence: https://www.npmjs.com/package/@revenuebase/n8n-nodes-revenuebase
+  category: null
+  contract_reference:
+    register: n8n community nodes (npm keyword n8n-community-node-package)
+    spec_file: null
+    role: ipaas-connector:n8n-community
+    registered_name: '@revenuebase/n8n-nodes-revenuebase'
+    matched_domain: revenuebase.ai
+    matched_by: domain
+    detected_by: sweep-workflow-automation.py
+    detected: '2026-10-15'
+    signal_note: one edge per (provider, platform); actions, triggers and usage counts are context, never read
+    package: '@revenuebase/n8n-nodes-revenuebase'
+    version: 1.0.1
+    published: '2026-05-02T21:39:44.801Z'
+    matched_on: publisher-email
+    builder: provider (package published from the provider's own domain)
+  detected_by: sweep-workflow-automation.py
+  first_seen: '2026-10-15'
 generated: '2026-10-14'
 method: searched
 checked:
 - https://a2aregistry.org/api/agents
 - https://registry.modelcontextprotocol.io/v0/servers
+- https://registry.npmjs.org/-/v1/search?text=keywords:n8n-community-node-package
 source:
 - https://a2aregistry.org/api/agents
