@@ -71,3 +71,34 @@
     builder: provider (package published from the provider's own domain)
   status: not-a-workflow
   arazzo: null
+- slug: revenuebase-npm-registry
+  label: npm registry
+  partner: npm
+  partner_name: npm registry
+  category: official SDK (JavaScript/TypeScript)
+  type: register
+  channel: package-registry
+  evidence: https://www.npmjs.com/package/@revenuebase/n8n-nodes-revenuebase
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@revenuebase/n8n-nodes-revenuebase'
+      version: 1.0.1
+      released: '2026-05-02'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@revenuebase/n8n-nodes-revenuebase
+      repo_leg: domain:revenuebase.ai
+      publisher_leg: email:revenuebase.ai
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  status: not-a-workflow
+  arazzo: null
