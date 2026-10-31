@@ -64,6 +64,141 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-RevenueBase is a company surfaced as a portfolio company of bessemer-venture-partners and added to the API Evangelist network as a stub for enrichment. Sector: unknown. This profile is a lead awaiting the enrichment pipeline.
+RevenueBase is a B2B data infrastructure platform — "the trust layer for B2B data" — providing 400M+ continuously verified contacts (399M as of the August 2026 release notes) and 65M+ companies delivered via Snowflake, S3, Gigasheet, or a REST API. Core capabilities include real-time and batch email verification, deterministic and semantic company matching/resolution, organization discovery, and record enrichment, with data filterable by headcount, revenue, funding stage, industry, job title, seniority, geography, and tech stack. The v2 REST API authenticates with an API key in the x-key header and meters usage in credits. Originally surfaced as a Bessemer Venture Partners portfolio company and enriched into the API Evangelist network.
 
-Backed by: bessemer-venture-partners — https://revenuebase.ai/
+**Areas:** Company · B2B Data · Data Enrichment · Email Verification · Contact Data · Company Data · Lead Intelligence · Sales Intelligence · A2A
+
+## RevenueBase on APIs.io
+
+Everything profiled for RevenueBase is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/revenuebase/](https://apis.io/providers/revenuebase/)** — or go straight to one of the APIs or properties below.
+
+### APIs (6)
+
+- [RevenueBase Account API](https://apis.io/apis/revenuebase/revenuebase-account-api/) — The Account API from RevenueBase — 2 operation(s) for account.
+- [RevenueBase Email API](https://apis.io/apis/revenuebase/revenuebase-email-api/) — The Email API from RevenueBase — 2 operation(s) for email.
+- [RevenueBase Jobs API](https://apis.io/apis/revenuebase/revenuebase-jobs-api/) — The Jobs API from RevenueBase — 4 operation(s) for jobs.
+- [RevenueBase Organization API](https://apis.io/apis/revenuebase/revenuebase-organization-api/) — The Organization API from RevenueBase — 2 operation(s) for organization.
+- [RevenueBase Health API](https://apis.io/apis/revenuebase/revenuebase-health-api/) — The health API from RevenueBase — 2 operation(s) for health.
+- [RevenueBase Contact API](https://apis.io/apis/revenuebase/revenuebase-contact-api/) — The Contact API from RevenueBase — 1 operation(s) for contact.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [RevenueBase](https://apis.io/servers/revenuebase/revenuebase/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Revenuebase Agentic Access](https://apis.io/agentic-access/revenuebase/revenuebase-agentic-access/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [Revenuebase API v2 Account API](https://apis.io/collections/revenuebase/open-revenuebase-account-api/)
+- [Revenuebase API v2 Account Email API](https://apis.io/collections/revenuebase/open-revenuebase-email-api/)
+- [Revenuebase API v2 Account Jobs API](https://apis.io/collections/revenuebase/open-revenuebase-jobs-api/)
+- [Revenuebase API v2 Account Organization API](https://apis.io/collections/revenuebase/open-revenuebase-organization-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Revenuebase Openapi Overlay](https://apis.io/overlays/revenuebase/revenuebase-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Revenuebase Authentication](https://apis.io/security/revenuebase/revenuebase-authentication/)
+- [Revenuebase Domain Security](https://apis.io/security/revenuebase/revenuebase-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Revenuebase Plans Pricing](https://apis.io/plans/revenuebase/revenuebase-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Revenuebase Rate Limits](https://apis.io/rate-limits/revenuebase/revenuebase-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://revenuebase.ai/)
+- [Documentation](https://docs.revenuebase.ai/)
+- [Getting started](https://docs.revenuebase.ai/docs/getting-started/overview)
+- [API reference](https://docs.revenuebase.ai/api-reference/v2/overview)
+- [Pricing](https://revenuebase.ai/pricing)
+- [Sign up](https://app.revenuebase.ai/)
+- [Support](https://revenuebase.ai/contact)
+- [Blog](https://revenuebase.ai/blog)
+- [Terms of service](https://revenuebase.ai/stc-01-14-2024)
+- [Privacy policy](https://revenuebase.ai/privacy-policy)
+- [GitHub](https://github.com/revenuebase)
+- [Status](https://status.revenuebase.ai/)
+
+## API Evangelist rating
+
+**Kin Score 57.2** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 46.2 |
+| Contract governance | 18.2 |
+| Operational transparency | 55.3 |
+| Developer ergonomics | 71.4 |
+| Access clarity | 69.7 |
+
+**Agent readiness 32.3** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/revenuebase/](https://apis.io/providers/revenuebase/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for RevenueBase: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/revenuebase/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
